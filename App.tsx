@@ -1,26 +1,16 @@
 import { StatusBar } from "expo-status-bar";
 import { Provider as PaperProvider } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Tip from "./src/pages/main/Tip";
 import Startup from "./src/pages/main/Startup";
 
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <Text>Open up App.tsx to start working on your app!</Text>
-    //   <StatusBar style="auto" />
-    // </View>
-
     <PaperProvider>
       <StatusBar style="auto" />
-      <Startup />
+      <SafeAreaView style={{ flex: 1 }}>
+        <Tip />
+      </SafeAreaView>
     </PaperProvider>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
