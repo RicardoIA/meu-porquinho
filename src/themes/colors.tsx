@@ -4,7 +4,7 @@ const colors = {
   lightGreen: "#DFF7E2",
   ultraLightGreen: "#F1FFF3",
   letersAndIcons: "#093030",
-
+  letterDarkGreen: "#0E3E3E",
   blue: "#0068FF",
 
   gray: "#A1A1A1",

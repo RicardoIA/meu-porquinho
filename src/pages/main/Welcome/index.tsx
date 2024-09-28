@@ -1,112 +1,70 @@
 import * as React from "react";
-import {
-  Keyboard,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-  Image,
-} from "react-native";
-import { Button, IconButton } from "react-native-paper";
-import { SvgUri } from "react-native-svg";
-import InputField from "../../../components/InputField";
-import InputTip from "../../../components/InputTip";
-import * as theme from "./../../../themes";
+import { Text, View, Image } from "react-native";
+import { Button } from "react-native-paper";
+
+import { useNavigation } from "@react-navigation/native";
+import * as theme from "../../../themes";
 import style from "./style";
+import { StackNavigation } from "../../../routes";
 
-const iconRequired = require("./../../../assets/icon-get-out.svg");
-const icon = Image.resolveAssetSource(iconRequired);
+export default function Statup() {
+  const { navigate } = useNavigation<StackNavigation>();
 
-export default function Welcome() {
-  const [value, setValue] = React.useState("");
+  const goToLogin = () => {
+    navigate("Login");
+  };
+
+  const goToRegister = () => {
+    navigate("Register");
+  };
+
+  const goToRecoverPassword = () => {
+    navigate("RecoverPassword");
+  };
 
   return (
-    <TouchableWithoutFeedback
-      touchSoundDisabled
-      onPress={() => Keyboard.dismiss()}
-    >
-      <View style={[style.container]}>
-        <View style={theme.style.header}>
-          <Text style={theme.style.headerTitle}>
-            Parabéns! Você atingiu sua meta! :)
-          </Text>
-        </View>
-        <View style={[theme.style.bodyContainer, { gap: 20 }]}>
-          <InputField
-            placeholder="example@example.com"
-            labelField="Usuário / E-mail"
-            value={value}
-            onChangeText={(value: string) => setValue(value)}
-          />
+    <View style={theme.style.fullScreenContainer}>
+      <View style={style.headerContainer}>
+        <Image
+          style={style.logo}
+          source={require("../../../assets/logo.png")}
+        />
 
-          <InputTip placeholder="R$ 150,00" />
-          <Button
-            mode="contained"
-            onPress={() => console.log(value)}
-            textColor={theme.colors.letersAndIcons}
-            labelStyle={theme.style.firstButtonLabel}
-            contentStyle={theme.style.firstButtonContainer}
-          >
-            Cadastro
-          </Button>
-          <Button
-            mode="contained"
-            onPress={() => console.log(value)}
-            textColor={theme.colors.letersAndIcons}
-            buttonColor={theme.colors.lightGreen}
-            labelStyle={theme.style.firstButtonLabel}
-            contentStyle={theme.style.firstButtonContainer}
-          >
-            Cadastro
-          </Button>
-          <Button
-            mode="contained"
-            onPress={() => console.log(value)}
-            textColor={theme.colors.ultraLightGreen}
-            buttonColor={theme.colors.blue}
-            style={theme.style.secondButton}
-            labelStyle={theme.style.secondButtonLabel}
-            contentStyle={theme.style.secondButtonContainer}
-          >
-            SACAR
-          </Button>
-          <Button
-            mode="contained"
-            onPress={() => console.log(value)}
-            textColor={theme.colors.ultraLightGreen}
-            buttonColor={theme.colors.blue}
-            style={theme.style.secondSmallButton}
-            labelStyle={theme.style.secondSmallButtonLabel}
-            contentStyle={theme.style.secondSmallButtonContainer}
-          >
-            Editar
-          </Button>
-          <Button
-            mode="contained"
-            onPress={() => console.log(value)}
-            textColor={theme.colors.lightGreen}
-            buttonColor={theme.colors.darkGreen}
-            style={theme.style.ternaryButton}
-            labelStyle={theme.style.ternaryButtonLabel}
-            contentStyle={theme.style.ternaryButtonContainer}
-          >
-            Sacar
-          </Button>
-
-          <IconButton
-            icon={() => (
-              <SvgUri
-                uri={icon.uri}
-                height={24}
-                color={theme.colors.letersAndIcons}
-              />
-            )}
-            iconColor={theme.colors.letersAndIcons}
-            style={theme.style.iconGetOut}
-            mode="contained"
-            onPress={() => console.log("Pressed")}
-          />
+        <View style={style.titleContainer}>
+          <Text style={theme.style.title}>Meu Porquinho</Text>
         </View>
       </View>
-    </TouchableWithoutFeedback>
+      <View style={style.buttons}>
+        <Button
+          mode="contained"
+          textColor={theme.colors.letterDarkGreen}
+          labelStyle={theme.style.firstButtonLabel}
+          contentStyle={theme.style.firstButtonContainer}
+          onPress={goToLogin}
+        >
+          Login
+        </Button>
+        <Button
+          mode="contained"
+          textColor={theme.colors.letterDarkGreen}
+          buttonColor={theme.colors.lightGreen}
+          labelStyle={theme.style.firstButtonLabel}
+          contentStyle={theme.style.firstButtonContainer}
+          onPress={goToRegister}
+        >
+          Cadastro
+        </Button>
+
+        <Button
+          textColor={theme.colors.letterDarkGreen}
+          rippleColor={theme.colors.lightGreen}
+          labelStyle={theme.style.firstTextButtonLabel}
+          mode="text"
+          onPress={goToRecoverPassword}
+        >
+          Esqueceu a senha
+        </Button>
+      </View>
+    </View>
   );
 }

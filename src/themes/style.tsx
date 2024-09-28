@@ -9,10 +9,9 @@ export default StyleSheet.create({
     justifyContent: "center",
     padding: 40,
   },
-
   title: {
     color: "#00D09E",
-    fontSize: 52,
+    fontSize: 60,
     fontWeight: "700",
     textAlign: "center",
   },
@@ -39,11 +38,14 @@ export default StyleSheet.create({
     marginHorizontal: "auto",
   },
   firstButtonContainer: {
-    height: 50,
+    height: 45,
   },
   firstButtonLabel: {
     fontSize: 20,
     paddingTop: 3,
+    fontWeight: "700",
+  },
+  firstTextButtonLabel: {
     fontWeight: "700",
   },
   secondButton: {
