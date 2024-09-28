@@ -30,7 +30,5 @@ export default StyleSheet.create({
     width: 50,
     margin: 0,
     borderRadius: 14,
-    // borderWidth: 1,
-    // borderColor: "#ff0000",
   },
 });

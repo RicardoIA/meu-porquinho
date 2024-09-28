@@ -5,9 +5,4 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#00D09E",
   },
-  textInput: {
-    width: "100%",
-    fontSize: 20,
-    marginVertical: 4,
-  },
 });

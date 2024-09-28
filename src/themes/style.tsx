@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import defaultColors from "./colors";
 
 export default StyleSheet.create({
   fullScreenContainer: {
@@ -36,5 +37,56 @@ export default StyleSheet.create({
     resizeMode: "contain",
     display: "flex",
     marginHorizontal: "auto",
+  },
+  firstButtonContainer: {
+    height: 50,
+  },
+  firstButtonLabel: {
+    fontSize: 20,
+    paddingTop: 3,
+    fontWeight: "700",
+  },
+  secondButton: {
+    borderRadius: 10,
+  },
+  secondButtonContainer: {
+    height: 40,
+  },
+  secondButtonLabel: {
+    fontSize: 19,
+    fontWeight: "700",
+    textTransform: "uppercase",
+  },
+  secondSmallButton: {
+    borderRadius: 10,
+  },
+  secondSmallButtonContainer: {
+    height: 30,
+  },
+  secondSmallButtonLabel: {
+    height: 20,
+    fontSize: 13,
+    fontWeight: "700",
+    borderRadius: 5,
+  },
+  ternaryButton: {
+    borderRadius: 45,
+  },
+  ternaryButtonContainer: {
+    height: 75,
+  },
+  ternaryButtonLabel: {
+    height: 40,
+    fontSize: 30,
+    fontWeight: "600",
+    textTransform: "uppercase",
+
+    paddingTop: 16,
+  },
+  iconGetOut: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    backgroundColor: defaultColors.lightGreen,
   },
 });
