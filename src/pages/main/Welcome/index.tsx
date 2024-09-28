@@ -7,7 +7,7 @@ import * as theme from "../../../themes";
 import style from "./style";
 import { StackNavigation } from "../../../routes";
 
-export default function Statup() {
+export default function Welcome() {
   const { navigate } = useNavigation<StackNavigation>();
 
   const goToLogin = () => {
