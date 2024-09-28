@@ -1,20 +1,25 @@
 import * as React from "react";
-import { Platform, Text, View } from "react-native";
+import { Image, Platform, Text, View } from "react-native";
 import { IconButton, TextInput } from "react-native-paper";
+import { SvgUri } from "react-native-svg";
 import { colors } from "../../themes";
 import style from "./style";
 
-export default function InputField(props: any) {
-  const [value, setValue] = React.useState("");
+const iconRequired = require("./../../assets/dollar-sign.svg");
+const icon = Image.resolveAssetSource(iconRequired);
 
+export default function InputField(props: any) {
   return (
     <View style={style.container}>
       {props.labelField && <Text style={style.label}>{props.labelField}</Text>}
 
       <IconButton
-        icon={require("D:/dev/course/react/meu-porquinho/src/assets/hand-coins.png")} //"D:/dev/course/react/meu-porquinho/src/assets/logo.svg"
+        icon={() => (
+          <SvgUri uri={icon.uri} height={40} color={colors.letersAndIcons} />
+        )}
         iconColor={colors.letersAndIcons}
-        size={20}
+        style={style.icon}
+        mode="contained"
         onPress={() => console.log("Pressed")}
       />
       <TextInput

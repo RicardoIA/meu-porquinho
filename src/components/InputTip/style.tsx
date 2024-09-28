@@ -4,6 +4,7 @@ import { colors } from "../../themes";
 export default StyleSheet.create({
   container: {
     display: "flex",
+    flexDirection: "row",
     gap: 8,
   },
   label: {
@@ -13,13 +14,23 @@ export default StyleSheet.create({
   },
   textInput: {
     backgroundColor: colors.mainGreen,
-    width: "100%",
     fontSize: 30,
+    flexGrow: 1,
     textAlign: "right",
+    fontWeight: "700",
     paddingHorizontal: 10,
   },
   outlineStyle: {
     borderRadius: 40,
     borderWidth: 0,
+  },
+  icon: {
+    backgroundColor: colors.mainGreen,
+    height: "100%",
+    width: 50,
+    margin: 0,
+    borderRadius: 14,
+    // borderWidth: 1,
+    // borderColor: "#ff0000",
   },
 });

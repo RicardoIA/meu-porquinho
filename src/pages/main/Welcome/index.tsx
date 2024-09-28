@@ -1,19 +1,10 @@
 import * as React from "react";
-import {
-  Text,
-  View,
-  Image,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
+import { Keyboard, Text, TouchableWithoutFeedback, View } from "react-native";
 import { Button } from "react-native-paper";
-import { Icon, MD3Colors, TextInput } from "react-native-paper";
-
-import * as theme from "./../../../themes";
-import style from "./style";
 import InputField from "../../../components/InputField";
 import InputTip from "../../../components/InputTip";
+import * as theme from "./../../../themes";
+import style from "./style";
 
 export default function Welcome() {
   const [value, setValue] = React.useState("");
