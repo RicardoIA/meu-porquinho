@@ -6,7 +6,7 @@ import { Icon, MD3Colors, TextInput } from "react-native-paper";
 import * as theme from "./../../../themes";
 import style from "./style";
 
-export default function Main() {
+export default function Tip() {
   const [text, setText] = React.useState("");
 
   return (
@@ -34,7 +34,7 @@ export default function Main() {
             onChangeText={(text) => setText(text)}
           />
         </View>
-        <Button mode="contained" onPress={() => console.log("Login")}>
+        <Button mode="contained" onPress={() => console.log("Deixar gorjeta")}>
           Deixar Gorjeta
         </Button>
       </View>

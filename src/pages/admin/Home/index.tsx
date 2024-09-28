@@ -1,10 +1,10 @@
 import { View, Text } from "react-native";
 import styles from "./style";
 
-export default function Tip() {
+export default function Home() {
   return (
     <View style={styles.container}>
-      <Text>Tip</Text>
+      <Text>Home</Text>
     </View>
   );
 }

@@ -36,8 +36,5 @@ export default StyleSheet.create({
     resizeMode: "contain",
     display: "flex",
     marginHorizontal: "auto",
-
-    borderWidth: 1,
-    borderColor: "red",
   },
 });
