@@ -24,7 +24,8 @@ export default StyleSheet.create({
   },
   headerTitle: {
     color: defaultColors.letersAndIcons,
-    fontWeight: "700",
+    fontFamily: "Poppins_SemiBold",
+    lineHeight: 39,
     fontSize: 30,
     textAlign: "center",
   },
@@ -38,7 +39,6 @@ export default StyleSheet.create({
     gap: 8,
     display: "flex",
     flex: 1,
-    justifyContent: "space-evenly",
     alignItems: "center",
     width: "100%",
     paddingBottom: 20,
@@ -95,10 +95,11 @@ export default StyleSheet.create({
     height: 65,
   },
   ternaryButtonLabel: {
+    fontFamily: "Poppins_SemiBold",
     height: 40,
     fontSize: 30,
     fontWeight: "600",
-    paddingTop: 16,
+    paddingTop: 20,
   },
   iconGetOut: {
     width: 50,

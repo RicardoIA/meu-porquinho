@@ -5,13 +5,22 @@ import { NavigationContainer } from "@react-navigation/native";
 import Routes from "./src/routes";
 import theme from "./src/themes";
 import "react-native-gesture-handler";
+import * as SplashScreen from "expo-splash-screen";
+import useLoadFonts from "./src/hooks/useLoadFonts";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const { fontsLoaded, onLayoutRootView } = useLoadFonts();
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
       <PaperProvider theme={theme}>
         <StatusBar style="auto" backgroundColor={theme.colors?.primary} />
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
           <Routes />
         </SafeAreaView>
       </PaperProvider>

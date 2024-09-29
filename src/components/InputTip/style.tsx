@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
-    gap: 8,
+    gap: 12,
   },
   label: {
     fontSize: 15,
@@ -17,8 +17,9 @@ export default StyleSheet.create({
     fontSize: 30,
     flexGrow: 1,
     textAlign: "right",
-    fontWeight: "700",
     paddingHorizontal: 10,
+    paddingTop: 5,
+    fontFamily: "Poppins_Black",
   },
   outlineStyle: {
     borderRadius: 40,

@@ -1,9 +1,21 @@
-import { ThemeProp } from "react-native-paper/lib/typescript/types";
+import { configureFonts } from "react-native-paper";
+import {
+  MD3Type,
+  MD3TypescaleKey,
+  ThemeProp,
+} from "react-native-paper/lib/typescript/types";
 import defaultColors from "./colors";
 import defaultStyle from "./style";
+import defaultFonts from "./fonts";
+import { processFontFamily } from "expo-font";
 
 export const style = defaultStyle;
+export const fonts = defaultFonts;
 export const colors = defaultColors;
+
+const fontConfig: Partial<MD3Type> = {
+  fontFamily: "Poppins_Medium",
+};
 
 const theme: ThemeProp = {
   colors: {
@@ -48,6 +60,7 @@ const theme: ThemeProp = {
     onSurfaceDisabled: "rgba(29, 27, 30, 0.38)",
     backdrop: "rgba(51, 47, 55, 0.4)",
   },
+  fonts: configureFonts({ config: fontConfig }),
 };
 
 export default theme;

@@ -12,7 +12,6 @@ export default function InputField(props: any) {
   return (
     <View style={style.container}>
       {props.labelField && <Text style={style.label}>{props.labelField}</Text>}
-
       <IconButton
         icon={() => (
           <SvgUri uri={icon.uri} height={40} color={colors.letersAndIcons} />

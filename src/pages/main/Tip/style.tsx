@@ -4,20 +4,20 @@ import { colors } from "../../../themes";
 export default StyleSheet.create({
   title: {
     color: colors.letersAndIcons,
-    fontWeight: "700",
+    fontFamily: "Poppins_SemiBold",
     fontSize: 30,
-    width: 250,
+    width: 300,
     height: 90,
-    textAlign: "justify",
     paddingVertical: 4,
     lineHeight: 28,
   },
   subtitle: {
     color: colors.letersAndIcons,
+    fontFamily: "Poppins_Regular",
     fontWeight: "600",
     textAlign: "center",
     fontSize: 14,
-    width: 250,
+    width: 300,
   },
   actionContainer: {
     width: "100%",
