@@ -10,10 +10,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <PaperProvider theme={theme}>
-        <StatusBar style="auto" />
-        {/* <SafeAreaView style={{ flex: 1 }}> */}
-        <Routes />
-        {/* </SafeAreaView> */}
+        <StatusBar style="auto" backgroundColor={theme.colors?.primary} />
+        <SafeAreaView style={{ flex: 1 }}>
+          <Routes />
+        </SafeAreaView>
       </PaperProvider>
     </NavigationContainer>
   );

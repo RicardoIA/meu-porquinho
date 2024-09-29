@@ -20,7 +20,6 @@ export default function InputField(props: any) {
         iconColor={colors.letersAndIcons}
         style={style.icon}
         mode="contained"
-        onPress={() => console.log("Pressed")}
       />
       <TextInput
         mode="outlined"
