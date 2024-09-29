@@ -1,18 +1,17 @@
 import * as React from "react";
 import {
-  Text,
-  View,
   Image,
-  TouchableWithoutFeedback,
   Keyboard,
   ScrollView,
+  Text,
+  TouchableWithoutFeedback,
+  View,
 } from "react-native";
 import { Button } from "react-native-paper";
-import { Icon, MD3Colors, TextInput } from "react-native-paper";
 
+import InputTip from "../../../components/InputTip";
 import * as theme from "./../../../themes";
 import style from "./style";
-import InputTip from "../../../components/InputTip";
 
 const image = require("./../../../assets/hand-coins.png");
 
@@ -37,7 +36,7 @@ export default function Tip() {
             Gostaria De Deixar Uma Gorjeta Para O App?
           </Text>
           <Text style={style.subtitle}>
-            Suar gorjeta nos ajuda a manter o Meu Porquinho funcionando :)
+            Sua gorjeta nos ajuda a manter o Meu Porquinho funcionando :)
           </Text>
 
           <View style={style.actionContainer}>
