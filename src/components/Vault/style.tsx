@@ -22,8 +22,8 @@ export default StyleSheet.create({
   content: {
     display: "flex",
     flex: 1,
-    gap: 4,
-    paddingVertical: 4,
+    gap: 8,
+    paddingVertical: 2,
   },
 
   iconVault: {

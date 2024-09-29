@@ -20,7 +20,7 @@ const Stack = createNativeStackNavigator();
 export default function Routes() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="UserWithdraw" component={UserWithdraw} />
+      <Stack.Screen name="UserDeposit" component={UserDeposit} />
       <Stack.Screen name="Welcome" component={Welcome} />
       <Stack.Screen name="Login" component={Login} />
 
@@ -28,7 +28,7 @@ export default function Routes() {
       <Stack.Screen name="AdminHome" component={AdminHome} />
       <Stack.Screen name="AdminWithdraw" component={AdminWithdraw} />
       <Stack.Screen name="UserHome" component={UserHome} />
-      <Stack.Screen name="UserDeposit" component={UserDeposit} />
+      <Stack.Screen name="UserWithdraw" component={UserWithdraw} />
       <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
       <Stack.Screen name="Register" component={Register} />
