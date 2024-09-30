@@ -44,7 +44,7 @@ export default StyleSheet.create({
     paddingBottom: 20,
     borderTopStartRadius: 70,
     borderTopEndRadius: 70,
-    paddingHorizontal: 40,
+    paddingHorizontal: 30,
     paddingVertical: 10,
   },
   image: {
@@ -66,15 +66,16 @@ export default StyleSheet.create({
     fontWeight: "700",
   },
   secondButton: {
-    borderRadius: 10,
+    borderRadius: 14,
   },
   secondButtonContainer: {
     height: 40,
   },
   secondButtonLabel: {
     fontSize: 19,
-    fontWeight: "700",
-    textTransform: "uppercase",
+    fontFamily: "Poppins_Bold",
+    paddingTop: 3,
+    width: "100%",
   },
   secondSmallButton: {
     borderRadius: 10,

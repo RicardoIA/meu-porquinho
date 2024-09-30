@@ -4,13 +4,15 @@ import { colors } from "./../../themes";
 export default StyleSheet.create({
   container: {
     backgroundColor: colors.mainGreen,
+    borderRadius: 50,
+    paddingHorizontal: 30,
+    paddingVertical: 20,
+    width: "100%",
+  },
+  containerBody: {
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: 50,
-    paddingHorizontal: 30,
-    paddingVertical: 25,
-    width: "100%",
     gap: 20,
   },
   contentInfo: {
@@ -18,6 +20,7 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     gap: 20,
+    width: "30%",
   },
   content: {
     display: "flex",
@@ -25,7 +28,6 @@ export default StyleSheet.create({
     gap: 8,
     paddingVertical: 2,
   },
-
   iconVault: {
     backgroundColor: colors.mainGreen,
     borderRadius: 100,
@@ -58,7 +60,7 @@ export default StyleSheet.create({
     fontFamily: "Poppins_Bold",
     color: colors.blue,
     fontSize: 15,
-    width: "70%",
+    width: "100%",
   },
   title: {
     color: colors.letersAndIcons,
@@ -76,5 +78,10 @@ export default StyleSheet.create({
     width: "100%",
     borderRadius: 100,
     backgroundColor: colors.ultraLightGreen,
+  },
+  button: {
+    marginTop: 16,
+    width: "40%",
+    paddingHorizontal: 0,
   },
 });
