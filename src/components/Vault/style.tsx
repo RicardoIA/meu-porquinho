@@ -46,6 +46,7 @@ export default StyleSheet.create({
   titleGroupContent: {
     fontFamily: "Poppins_Regular",
     color: colors.letersAndIcons,
+
     fontSize: 12,
   },
   valueSafe: {
@@ -53,10 +54,11 @@ export default StyleSheet.create({
     color: colors.letersAndIcons,
     fontSize: 15,
   },
-  withdrawDate: {
+  labelContentBlue: {
     fontFamily: "Poppins_Bold",
     color: colors.blue,
     fontSize: 15,
+    width: "70%",
   },
   title: {
     color: colors.letersAndIcons,

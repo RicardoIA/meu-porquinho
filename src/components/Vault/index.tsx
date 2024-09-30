@@ -4,15 +4,20 @@ import { SvgUri } from "react-native-svg";
 import * as theme from "./../../themes";
 import style from "./style";
 
-const iconMoneyRequired = require("./../../assets/money.svg");
-const iconMoney = Image.resolveAssetSource(iconMoneyRequired);
-const iconMoneyWhiteRequired = require("./../../assets/money-white.svg");
-const iconMoneyWhite = Image.resolveAssetSource(iconMoneyWhiteRequired);
-const iconCalendarRequired = require("./../../assets/calendar.svg");
-const iconCalendar = Image.resolveAssetSource(iconCalendarRequired);
+const iconMoney = Image.resolveAssetSource(require("./../../assets/money.svg"));
+const iconMoneyWhite = Image.resolveAssetSource(
+  require("./../../assets/money-white.svg")
+);
+const iconHandKey = Image.resolveAssetSource(
+  require("./../../assets/hand-key.svg")
+);
+const iconCalendar = Image.resolveAssetSource(
+  require("./../../assets/calendar.svg")
+);
 
 export interface VaultProps {
-  withdrawDate: string;
+  withdrawDate?: string;
+  pixKey?: string;
   valueSafe: number;
   title: string;
 }
@@ -40,18 +45,38 @@ export default function Vault(props: VaultProps) {
             <Text style={style.valueSafe}>${props.valueSafe}</Text>
           </View>
         </View>
-        <View style={style.horizontalLine} />
-        <View style={style.groupContent}>
-          <SvgUri
-            uri={iconCalendar.uri}
-            width={30}
-            color={theme.colors.letterDarkGreen}
-          />
-          <View style={style.groupContentInfo}>
-            <Text style={style.titleGroupContent}>Data para saque:</Text>
-            <Text style={style.withdrawDate}>{props.withdrawDate}</Text>
-          </View>
-        </View>
+        {props.withdrawDate && (
+          <>
+            <View style={style.horizontalLine} />
+            <View style={style.groupContent}>
+              <SvgUri
+                uri={iconCalendar.uri}
+                width={30}
+                color={theme.colors.letterDarkGreen}
+              />
+              <View style={style.groupContentInfo}>
+                <Text style={style.titleGroupContent}>Data para saque</Text>
+                <Text style={style.labelContentBlue}>{props.withdrawDate}</Text>
+              </View>
+            </View>
+          </>
+        )}
+        {props.pixKey && (
+          <>
+            <View style={style.horizontalLine} />
+            <View style={style.groupContent}>
+              <SvgUri
+                uri={iconHandKey.uri}
+                width={30}
+                color={theme.colors.letterDarkGreen}
+              />
+              <View style={style.groupContentInfo}>
+                <Text style={style.titleGroupContent}>Pix para saque</Text>
+                <Text style={style.labelContentBlue}>{props.pixKey}</Text>
+              </View>
+            </View>
+          </>
+        )}
       </View>
     </View>
   );
