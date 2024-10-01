@@ -4,15 +4,15 @@ import { colors } from "./../../themes";
 export default StyleSheet.create({
   container: {
     backgroundColor: colors.mainGreen,
-    borderRadius: 50,
+    borderRadius: 40,
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 15,
     width: "100%",
   },
   containerBody: {
     alignItems: "center",
     flexDirection: "row",
-    gap: 15,
+    gap: 10,
   },
   title: {
     color: colors.letersAndIcons,
@@ -20,19 +20,24 @@ export default StyleSheet.create({
     fontSize: 15,
   },
   content: {
+    paddingTop: 15,
     flex: 1,
-    paddingVertical: 15,
     gap: 5,
   },
   icon: {
     height: "100%",
+    margin: 0,
   },
   contentGroup: {
-    flexDirection: "row",
     justifyContent: "space-between",
+    flexDirection: "row",
     width: "100%",
+    gap: 15,
   },
-  contentInfo: {},
+  contentInfo: {
+    flexGrow: 1,
+    flexBasis: 1,
+  },
   contentLabel: {
     color: colors.letersAndIcons,
     fontFamily: "Poppins_Light",

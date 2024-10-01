@@ -35,7 +35,7 @@ export default function NewVault(props: NewVaultProps) {
               </View>
             </View>
             <View style={style.contentInfo}>
-              <Text style={style.contentLabel}>Data para saque</Text>
+              <Text style={style.contentLabel}>Valor</Text>
               <View style={style.contentValueContainer}>
                 <Text style={style.contentValueBlack}>R${props.value}</Text>
               </View>

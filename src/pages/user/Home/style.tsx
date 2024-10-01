@@ -4,7 +4,8 @@ import { colors } from "./../../../themes";
 export default StyleSheet.create({
   headerMain: {
     width: "100%",
-    padding: 30,
+    paddingHorizontal: 30,
+    paddingVertical: 20,
   },
   headerMainTop: {
     flexDirection: "row",
@@ -59,8 +60,8 @@ export default StyleSheet.create({
     backgroundColor: colors.ultraLightGreen,
   },
   bodyContainer: {
-    paddingVertical: 10,
-    gap: 15,
+    paddingVertical: 18,
+    gap: 18,
     width: "100%",
   },
 });

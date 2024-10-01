@@ -4,7 +4,7 @@ import { colors } from "./../../themes";
 export default StyleSheet.create({
   container: {
     backgroundColor: colors.mainGreen,
-    borderRadius: 50,
+    borderRadius: 45,
     paddingHorizontal: 30,
     paddingVertical: 20,
     width: "100%",
@@ -48,7 +48,6 @@ export default StyleSheet.create({
   titleGroupContent: {
     fontFamily: "Poppins_Regular",
     color: colors.letersAndIcons,
-
     fontSize: 12,
   },
   valueSafe: {

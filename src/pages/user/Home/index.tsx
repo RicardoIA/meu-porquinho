@@ -14,6 +14,7 @@ import * as theme from "./../../../themes";
 import style from "./style";
 import { SvgUri } from "react-native-svg";
 import NewVault from "../../../components/NewVault";
+import PixContainer from "../../../components/PixContainer";
 
 const iconArrowDown = Image.resolveAssetSource(
   require("./../../../assets/arrow-down.svg")
@@ -32,9 +33,14 @@ export default function Home() {
   const [totalSaved, setTotalSaved] = React.useState(7783);
   const [newVaultValue, setNewVaultValue] = React.useState(4000);
   const [newVaultDate, setNewVaultDate] = React.useState("25 Set. 2024");
+  const [pixKey, setPixKey] = React.useState("77.924.749/0001-50");
 
-  function onClickWithdraw() {
-    console.log("Withdraw: ", valueSafe);
+  function onPressWithdraw() {
+    console.log("Withdraw:", valueSafe);
+  }
+
+  function onPressEditPix() {
+    console.log("Pix:", pixKey);
   }
 
   return (
@@ -102,19 +108,19 @@ export default function Home() {
               valueSafe={valueSafe}
               withdrawDate="15/10/2012"
               btnWithout={true}
-              btnWithoutOnPress={() => console.log("without cofre 1")}
+              btnWithoutOnPress={onPressWithdraw}
             />
 
-            {/* <Vault
+            <Vault
               title="Cofre 2"
               valueSafe={valueSafe}
               withdrawDate="25/10/2024"
               btnWithout={true}
               btnWithoutDisable={true}
               btnWithoutOnPress={() => console.log("without cofre 2")}
-            /> */}
+            />
             <NewVault value={newVaultValue} withdrawDate={newVaultDate} />
-            {/* <NewVault value={newVaultValue} withdrawDate={newVaultDate} /> */}
+            <PixContainer pixKey={pixKey} btnEditOnPress={onPressEditPix} />
           </View>
         </View>
       </ScrollView>
