@@ -54,7 +54,6 @@ export default function Welcome() {
         >
           Cadastro
         </Button>
-
         <Button
           textColor={theme.colors.letterDarkGreen}
           rippleColor={theme.colors.lightGreen}

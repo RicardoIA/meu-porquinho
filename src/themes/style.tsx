@@ -19,7 +19,7 @@ export default StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    height: 180,
+    height: 160,
     width: 300,
   },
   headerTitle: {

@@ -7,16 +7,18 @@ export default StyleSheet.create({
     gap: 8,
   },
   label: {
+    fontFamily: "Poppins_Medium",
     fontSize: 15,
-    fontWeight: "600",
     paddingStart: 20,
   },
   textInput: {
     backgroundColor: colors.lightGreen,
-    width: "100%",
+    fontFamily: "Poppins_Regular",
     fontSize: 16,
     paddingHorizontal: 10,
+    paddingVertical: 2,
     height: 40,
+    width: "100%",
   },
   outlineStyle: {
     borderRadius: 40,
