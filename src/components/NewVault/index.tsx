@@ -5,6 +5,8 @@ import * as theme from "./../../themes";
 import style from "./style";
 import { Button, IconButton } from "react-native-paper";
 import colors from "../../themes/colors";
+import { StackNavigation } from "../../routes";
+import { useNavigation } from "@react-navigation/native";
 
 const iconPlusCircle = Image.resolveAssetSource(
   require("./../../assets/plus-circle.svg")
@@ -16,6 +18,20 @@ export interface NewVaultProps {
 }
 
 export default function NewVault(props: NewVaultProps) {
+  const { navigate } = useNavigation<StackNavigation>();
+
+  function goToDeposit() {
+    // const userWithdrawProps: UserWithdrawProps = {
+    //   name: props.title,
+    //   valueSafe: props.valueSafe,
+    //   withdrawDate: props.withdrawDate,
+    // };
+
+    // console.log(userWithdrawProps);
+
+    navigate("UserDeposit");
+  }
+
   return (
     <View style={style.container}>
       <View style={style.containerBody}>
@@ -24,6 +40,7 @@ export default function NewVault(props: NewVaultProps) {
           containerColor={colors.blue}
           style={style.icon}
           mode="contained"
+          onPress={goToDeposit}
         />
         <View style={style.content}>
           <Text style={style.title}>Novo Cofre</Text>

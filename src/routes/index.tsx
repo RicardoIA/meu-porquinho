@@ -52,5 +52,6 @@ export type ScreenNames = [
   "Register",
   "Components"
 ]; // type these manually
-export type RootStackParamList = Record<ScreenNames[number], undefined>;
+
+export type RootStackParamList = Record<ScreenNames[number], any>;
 export type StackNavigation = NavigationProp<RootStackParamList>;

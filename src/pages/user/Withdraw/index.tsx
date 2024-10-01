@@ -16,7 +16,9 @@ import style from "./style";
 const image = require("./../../../assets/mobile-phone-payment.png");
 
 export default function UserWithdraw() {
+  const [title, setTitle] = React.useState("Cofre 1");
   const [valueSafe, setValueSafe] = React.useState(0);
+  const [withdrawDate, setWithdrawDate] = React.useState("15/10/2021");
 
   function onClickWithdraw() {
     console.log("Withdraw: ", valueSafe);
@@ -30,15 +32,15 @@ export default function UserWithdraw() {
       <ScrollView contentContainerStyle={[theme.style.bodyViewContainer]}>
         <View style={theme.style.header}>
           <Text style={theme.style.headerTitle}>Saque:</Text>
-          <Text style={theme.style.headerTitle}>Cofre 1</Text>
+          <Text style={theme.style.headerTitle}>{title}</Text>
         </View>
         <View style={theme.style.bodyContainer}>
           <Image style={theme.style.image} source={image} />
 
           <Vault
-            title="Cofre 1"
+            title={title}
             valueSafe={valueSafe}
-            withdrawDate="15/10/2012"
+            withdrawDate={withdrawDate}
           />
 
           <View style={style.actionContainer}>

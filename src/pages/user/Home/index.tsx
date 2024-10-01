@@ -15,6 +15,8 @@ import style from "./style";
 import { SvgUri } from "react-native-svg";
 import NewVault from "../../../components/NewVault";
 import PixContainer from "../../../components/PixContainer";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigation } from "../../../routes";
 
 const iconArrowDown = Image.resolveAssetSource(
   require("./../../../assets/arrow-down.svg")
