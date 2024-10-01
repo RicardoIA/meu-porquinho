@@ -4,7 +4,7 @@ import { colors } from "../../themes";
 export default StyleSheet.create({
   container: {
     display: "flex",
-    gap: 8,
+    gap: 2,
   },
   label: {
     fontFamily: "Poppins_Medium",
