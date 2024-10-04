@@ -67,12 +67,12 @@ export default StyleSheet.create({
     borderRadius: 14,
   },
   secondButtonContainer: {
-    height: 40,
+    height: 45,
   },
   secondButtonLabel: {
     fontSize: 19,
     fontFamily: "Poppins_Bold",
-    paddingTop: 3,
+    paddingTop: 4,
     width: "100%",
   },
   secondSmallButton: {
