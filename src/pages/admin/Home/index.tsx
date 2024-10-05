@@ -16,24 +16,33 @@ import * as theme from "./../../../themes";
 import style from "./style";
 import ResumeAccount from "../../../components/ResumeAccount";
 import colors from "../../../themes/colors";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigation } from "../../../routes";
 
 const iconGetOut = Image.resolveAssetSource(
   require("./../../../assets/icon-get-out.svg")
 );
 
 export default function AdminHome() {
-  const [valueSafe, setValueSafe] = React.useState(0);
-  const [userName, setUserName] = React.useState("@Admin");
-  const [withdrawalAvailable, setWithdrawalAvailable] = React.useState(1187.4);
-  const [totalTips, setTotalTips] = React.useState(100);
-  const [pixKey, setPixKey] = React.useState("77.924.749/0001-50");
+  const { navigate } = useNavigation<StackNavigation>();
+
+  const data = {
+    valueSafe: 4000,
+    totalTips: 100,
+    userName: "@Admin",
+    pixKey: "77.924.749/0001-50",
+  };
+
+  function onPreesExit() {
+    console.log("Closed press");
+  }
 
   function onPressWithdraw() {
-    console.log("Withdraw:", valueSafe);
+    navigate("AdminWithdraw");
   }
 
   function onPressEditPix() {
-    console.log("Pix:", pixKey);
+    console.log("Pix:", data.pixKey);
   }
 
   return (
@@ -52,7 +61,7 @@ export default function AdminHome() {
             <View style={style.greetingMessage}>
               <Text style={style.headerTitle}>Olá!</Text>
               <Text style={style.headerSubtitle}>
-                Seja bem vindo {userName}!
+                Seja bem vindo {data.userName}!
               </Text>
             </View>
 
@@ -67,16 +76,11 @@ export default function AdminHome() {
               iconColor={theme.colors.letersAndIcons}
               style={theme.style.iconGetOut}
               mode="contained"
-              onPress={() => console.log("Pressed")}
+              onPress={onPreesExit}
             />
           </View>
           <View style={style.resumeAccount}>
-            <VaultAdmin
-              title="Depositos / Saques"
-              valueSafe={valueSafe}
-              totalTips={totalTips}
-              btnWithoutOnPress={onPressWithdraw}
-            />
+            <VaultAdmin valueSafe={data.valueSafe} totalTips={data.totalTips} />
           </View>
         </View>
 
@@ -86,7 +90,7 @@ export default function AdminHome() {
               style={{
                 backgroundColor: colors.lightGreen,
                 borderRadius: 30,
-                height: 200,
+                height: 180,
                 justifyContent: "space-around",
                 alignItems: "center",
                 padding: 40,
@@ -98,11 +102,14 @@ export default function AdminHome() {
 
             <ResumeAccount valueProfit={100} valueSafe={4000} />
 
-            <PixContainer pixKey={pixKey} btnEditOnPress={onPressEditPix} />
+            <PixContainer
+              pixKey={data.pixKey}
+              btnEditOnPress={onPressEditPix}
+            />
 
             <Button
               mode="contained"
-              onPress={() => console.log("teste")}
+              onPress={onPressWithdraw}
               textColor={theme.colors.ultraLightGreen}
               buttonColor={theme.colors.blue}
               style={theme.style.secondButton}

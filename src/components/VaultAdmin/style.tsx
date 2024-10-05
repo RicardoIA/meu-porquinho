@@ -6,7 +6,8 @@ export default StyleSheet.create({
     backgroundColor: colors.mainGreen,
     borderRadius: 45,
     paddingHorizontal: 30,
-    paddingVertical: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
     width: "100%",
   },
   containerBody: {
@@ -19,7 +20,7 @@ export default StyleSheet.create({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    gap: 20,
+    gap: 10,
     width: "30%",
   },
   content: {
@@ -33,8 +34,8 @@ export default StyleSheet.create({
     borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
-    width: 70,
-    height: 70,
+    width: 80,
+    height: 80,
     borderWidth: 3,
     borderColor: colors.blue,
   },
@@ -62,9 +63,26 @@ export default StyleSheet.create({
     width: "100%",
   },
   title: {
+    width: "100%",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  titleDark: {
     color: colors.letersAndIcons,
     fontFamily: "Poppins_Medium",
-    fontSize: 12,
+    fontSize: 15,
+  },
+  titleBlue: {
+    color: colors.blue,
+    fontFamily: "Poppins_Medium",
+    fontSize: 15,
+  },
+  titleWhite: {
+    color: colors.ultraLightGreen,
+    fontFamily: "Poppins_Medium",
+    fontSize: 15,
   },
   verticalLine: {
     height: "100%",

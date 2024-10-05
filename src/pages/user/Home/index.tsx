@@ -17,6 +17,7 @@ import NewVault from "../../../components/NewVault";
 import PixContainer from "../../../components/PixContainer";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
+import Utils from "../../../utils";
 
 const iconArrowDown = Image.resolveAssetSource(
   require("./../../../assets/arrow-down.svg")
@@ -29,20 +30,25 @@ const iconGetOut = Image.resolveAssetSource(
 );
 
 export default function Home() {
-  const [valueSafe, setValueSafe] = React.useState(0);
-  const [userName, setUserName] = React.useState("@Usuario");
-  const [withdrawalAvailable, setWithdrawalAvailable] = React.useState(1187.4);
-  const [totalSaved, setTotalSaved] = React.useState(7783);
-  const [newVaultValue, setNewVaultValue] = React.useState(4000);
-  const [newVaultDate, setNewVaultDate] = React.useState("25 Set. 2024");
-  const [pixKey, setPixKey] = React.useState("77.924.749/0001-50");
+  const data = {
+    valueSafe: 0,
+    userName: "@Usuario",
+    withdrawalAvailable: 1187.4,
+    totalSaved: 7783,
+    newVaultValue: 4000,
+    newVaultDate: "25 Set. 2024",
+    pixKey: "77.924.749/0001-50",
+  };
 
+  function onPreesExit() {
+    console.log("Closed press");
+  }
   function onPressWithdraw() {
-    console.log("Withdraw:", valueSafe);
+    console.log("Withdraw:", data.valueSafe);
   }
 
   function onPressEditPix() {
-    console.log("Pix:", pixKey);
+    console.log("Pix:", data.pixKey);
   }
 
   return (
@@ -56,7 +62,7 @@ export default function Home() {
             <View style={style.greetingMessage}>
               <Text style={style.headerTitle}>Olá!</Text>
               <Text style={style.headerSubtitle}>
-                Seja bem vindo {userName}!
+                Seja bem vindo {data.userName}!
               </Text>
             </View>
 
@@ -71,7 +77,7 @@ export default function Home() {
               iconColor={theme.colors.letersAndIcons}
               style={theme.style.iconGetOut}
               mode="contained"
-              onPress={() => console.log("Pressed")}
+              onPress={onPreesExit}
             />
           </View>
           <View style={style.resumeAccount}>
@@ -84,7 +90,9 @@ export default function Home() {
                 />
                 <Text style={style.resumeAccountTitle}>Total Guardado</Text>
               </View>
-              <Text style={style.resumeAccountValueWhite}>${totalSaved}</Text>
+              <Text style={style.resumeAccountValueWhite}>
+                {Utils.formatMonetaryNumber(data.totalSaved)}
+              </Text>
             </View>
             <View style={style.verticalLine} />
             <View style={style.resumeAccountGroup}>
@@ -97,7 +105,7 @@ export default function Home() {
                 <Text style={style.resumeAccountTitle}>Saque Disponível</Text>
               </View>
               <Text style={style.resumeAccountValueBlue}>
-                R${withdrawalAvailable}
+                {Utils.formatMonetaryNumber(data.withdrawalAvailable)}
               </Text>
             </View>
           </View>
@@ -107,7 +115,7 @@ export default function Home() {
           <View style={style.bodyContainer}>
             <Vault
               title="Cofre 1"
-              valueSafe={valueSafe}
+              valueSafe={data.valueSafe}
               withdrawDate="15/10/2012"
               btnWithout={true}
               btnWithoutOnPress={onPressWithdraw}
@@ -115,14 +123,20 @@ export default function Home() {
 
             <Vault
               title="Cofre 2"
-              valueSafe={valueSafe}
+              valueSafe={data.valueSafe}
               withdrawDate="25/10/2024"
               btnWithout={true}
               btnWithoutDisable={true}
               btnWithoutOnPress={() => console.log("without cofre 2")}
             />
-            <NewVault value={newVaultValue} withdrawDate={newVaultDate} />
-            <PixContainer pixKey={pixKey} btnEditOnPress={onPressEditPix} />
+            <NewVault
+              value={data.newVaultValue}
+              withdrawDate={data.newVaultDate}
+            />
+            <PixContainer
+              pixKey={data.pixKey}
+              btnEditOnPress={onPressEditPix}
+            />
           </View>
         </View>
       </ScrollView>

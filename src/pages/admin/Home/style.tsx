@@ -66,7 +66,7 @@ export default StyleSheet.create({
   },
   bodyContainer: {
     paddingVertical: 18,
-    gap: 18,
+    gap: 20,
     width: "100%",
   },
 });

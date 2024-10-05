@@ -4,6 +4,7 @@ import { colors } from "./../../themes";
 export default StyleSheet.create({
   container: {
     width: "100%",
+    gap: 10,
   },
   containerBody: {
     display: "flex",
@@ -14,10 +15,15 @@ export default StyleSheet.create({
   contentInfo: {
     flexGrow: 1,
     width: 60,
-    padding: 10,
+    paddingHorizontal: 10,
   },
   content: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  contentValue: {
+    width: 100,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -16,10 +16,13 @@ import style from "./style";
 const image = require("./../../../assets/mobile-phone-payment.png");
 
 export default function AdminWithdraw() {
-  const [valueSafe, setValueSafe] = React.useState(4000);
+  const data = {
+    valueSafe: 4000,
+    pixKey: "77.924.749/0001-50",
+  };
 
   function onClickWithdraw() {
-    console.log("Withdraw: ", valueSafe);
+    console.log("Withdraw: ", data.valueSafe);
   }
 
   return (
@@ -37,8 +40,8 @@ export default function AdminWithdraw() {
 
           <Vault
             title="Caixa"
-            valueSafe={valueSafe}
-            pixKey="77.924.749/0001-50"
+            valueSafe={data.valueSafe}
+            pixKey={data.pixKey}
           />
 
           <View style={style.actionContainer}>

@@ -30,10 +30,12 @@ export default StyleSheet.create({
     textAlign: "center",
   },
   bodyViewContainer: {
+    flexGrow: 1,
     alignItems: "center",
     backgroundColor: defaultColors.mainGreen,
   },
   bodyContainer: {
+    flexGrow: 1,
     gap: 8,
     backgroundColor: "#fff",
     display: "flex",

@@ -7,6 +7,7 @@ import { StackNavigation } from "../../routes";
 import * as theme from "./../../themes";
 import style from "./style";
 import UserWithdraw from "../../pages/user/Withdraw";
+import Utils from "../../utils";
 
 const iconMoney = Image.resolveAssetSource(require("./../../assets/money.svg"));
 const iconMoneyWhite = Image.resolveAssetSource(
@@ -34,14 +35,6 @@ export default function Vault(props: VaultProps) {
   const { navigate } = useNavigation<StackNavigation>();
 
   function goToLogin() {
-    // const userWithdrawProps: UserWithdrawProps = {
-    //   name: props.title,
-    //   valueSafe: props.valueSafe,
-    //   withdrawDate: props.withdrawDate,
-    // };
-
-    // console.log(userWithdrawProps);
-
     navigate("UserWithdraw");
   }
 
@@ -65,7 +58,9 @@ export default function Vault(props: VaultProps) {
             />
             <View style={style.groupContentInfo}>
               <Text style={style.titleGroupContent}>Valor Guardado</Text>
-              <Text style={style.valueSafe}>${props.valueSafe}</Text>
+              <Text style={style.valueSafe}>
+                {Utils.formatMonetaryNumber(props.valueSafe)}
+              </Text>
             </View>
           </View>
           {props.withdrawDate && (
@@ -97,7 +92,9 @@ export default function Vault(props: VaultProps) {
                 />
                 <View style={style.groupContentInfo}>
                   <Text style={style.titleGroupContent}>Pix para saque</Text>
-                  <Text style={style.labelContentBlue}>{props.pixKey}</Text>
+                  <Text style={[style.labelContentBlue, style.labelPix]}>
+                    {props.pixKey}
+                  </Text>
                 </View>
               </View>
             </>

@@ -61,6 +61,9 @@ export default StyleSheet.create({
     fontSize: 15,
     width: "100%",
   },
+  labelPix: {
+    width: "80%",
+  },
   title: {
     color: colors.letersAndIcons,
     fontFamily: "Poppins_Medium",

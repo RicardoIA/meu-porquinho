@@ -6,7 +6,7 @@ export default StyleSheet.create({
     backgroundColor: colors.lightGreen,
     borderRadius: 50,
     paddingHorizontal: 20,
-    paddingVertical: 14,
+    paddingVertical: 8,
     width: "100%",
   },
   containerBody: {

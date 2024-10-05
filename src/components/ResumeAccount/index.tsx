@@ -3,6 +3,7 @@ import { GestureResponderEvent, Image, Text, View } from "react-native";
 import { SvgUri } from "react-native-svg";
 import * as theme from "./../../themes";
 import style from "./style";
+import Utils from "./../../utils";
 
 const iconMoney = Image.resolveAssetSource(
   require("./../../assets/money-white.svg")
@@ -34,8 +35,10 @@ export default function ResumeAccount(props: ResumeAccountProps) {
           <Text style={style.time}>Mensal</Text>
         </View>
         <View style={style.verticalLine} />
-        <View style={style.content}>
-          <Text style={style.valueSafe}>${props.valueSafe}</Text>
+        <View style={style.contentValue}>
+          <Text style={style.valueSafe}>
+            {Utils.formatMonetaryNumber(props.valueSafe)}
+          </Text>
         </View>
       </View>
       <View style={style.containerBody}>
@@ -53,22 +56,12 @@ export default function ResumeAccount(props: ResumeAccountProps) {
           <Text style={style.time}>Mensal</Text>
         </View>
         <View style={style.verticalLine} />
-        <View style={style.content}>
-          <Text style={style.labelContentBlue}>${props.valueProfit}</Text>
+        <View style={style.contentValue}>
+          <Text style={style.labelContentBlue}>
+            {Utils.formatMonetaryNumber(props.valueProfit)}
+          </Text>
         </View>
       </View>
     </View>
   );
 }
-
-// <View style={style.groupContent}>
-//   <SvgUri
-//     uri={iconMoney.uri}
-//     width={30}
-//     color={theme.colors.letterDarkGreen}
-//   />
-//   <View style={style.groupContentInfo}>
-//     <Text style={style.titleGroupContent}>Valor Guardado</Text>
-//     <Text style={style.valueSafe}>${props.valueSafe}</Text>
-//   </View>
-// </View>
