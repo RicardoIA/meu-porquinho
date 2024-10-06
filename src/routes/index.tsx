@@ -20,6 +20,7 @@ const Stack = createNativeStackNavigator();
 export default function Routes() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
       <Stack.Screen
         name="Welcome"
         component={Welcome}
@@ -31,7 +32,6 @@ export default function Routes() {
         options={{ gestureEnabled: false }}
       />
       <Stack.Screen name="NewPassword" component={NewPassword} />
-      <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
       <Stack.Screen
         name="Register"
         component={Register}
