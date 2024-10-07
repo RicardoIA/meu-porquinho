@@ -29,6 +29,11 @@ export default StyleSheet.create({
   fieldsContainer: {
     gap: 10,
   },
+  alertError: {
+    fontFamily: "Poppins_Medium",
+    color: colors.red,
+    textAlign: "center",
+  },
   termsContainer: {},
   termsButtonsContainer: {
     flexDirection: "row",

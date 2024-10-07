@@ -5,4 +5,11 @@ export default class Utils {
       maximumFractionDigits: 2,
     })}`;
   }
+
+  static isEmpty(prop: string) {
+    return !prop || prop === null || prop.trim() === "";
+  }
+  static isNotEmpty(prop: string) {
+    return !Utils.isEmpty(prop);
+  }
 }

@@ -33,4 +33,9 @@ export default StyleSheet.create({
     gap: 12,
     width: 200,
   },
+  alertError: {
+    fontFamily: "Poppins_Medium",
+    color: colors.red,
+    textAlign: "center",
+  },
 });

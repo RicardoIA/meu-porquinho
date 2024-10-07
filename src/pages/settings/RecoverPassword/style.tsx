@@ -56,6 +56,11 @@ export default StyleSheet.create({
     marginVertical: 0,
     marginHorizontal: 0,
   },
+  alertError: {
+    fontFamily: "Poppins_Medium",
+    color: colors.red,
+    textAlign: "center",
+  },
   buttons: {
     display: "flex",
     justifyContent: "space-between",

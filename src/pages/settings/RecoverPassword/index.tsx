@@ -12,17 +12,32 @@ import style from "./style";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
+import Utils from "../../../utils";
 
 export default function RecoverPassword() {
   const { navigate } = useNavigation<StackNavigation>();
 
   const [email, setEmail] = React.useState("");
+  const [emailInvalid, setEmailInvalid] = React.useState(false);
 
   function goToHome() {
     navigate("UserHome");
   }
   function goToRegister() {
     navigate("Register");
+  }
+  function checkEmail() {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || email.length < 4) {
+      setEmailInvalid(true);
+      return;
+    }
+
+    setEmailInvalid(!emailRegex.test(email));
+    if (!emailInvalid) {
+      navigate("NewPassword");
+    }
   }
 
   return (
@@ -52,6 +67,9 @@ export default function RecoverPassword() {
                 onChangeText={(value: string) => setEmail(value)}
               />
             </View>
+            {emailInvalid && (
+              <Text style={style.alertError}>E-mail inválido</Text>
+            )}
           </View>
 
           <View style={style.buttons}>
@@ -60,7 +78,7 @@ export default function RecoverPassword() {
               textColor={theme.colors.letterDarkGreen}
               labelStyle={theme.style.firstButtonLabel}
               contentStyle={theme.style.firstButtonContainer}
-              onPress={goToRegister}
+              onPress={checkEmail}
             >
               Enviar
             </Button>
@@ -70,7 +88,7 @@ export default function RecoverPassword() {
               buttonColor={theme.colors.lightGreen}
               labelStyle={theme.style.firstButtonLabel}
               contentStyle={theme.style.firstButtonContainer}
-              onPress={goToHome}
+              onPress={goToRegister}
             >
               Cadastro
             </Button>

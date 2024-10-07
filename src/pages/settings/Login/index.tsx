@@ -12,14 +12,24 @@ import style from "./style";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
+import Utils from "../../../utils";
+import InputPassword from "../../../components/InputPassword";
 
 export default function Home() {
   const { navigate } = useNavigation<StackNavigation>();
 
   const [user, setUser] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [loginInvalid, setLoginInvalid] = React.useState(false);
 
   const goToLogin = () => {
+    console.log(user, "|", password);
+    if (Utils.isEmpty(user) || Utils.isEmpty(password)) {
+      setLoginInvalid(true);
+      return;
+    }
+
+    setLoginInvalid(false);
     navigate("UserHome");
   };
 
@@ -49,14 +59,16 @@ export default function Home() {
               onChangeText={(value: string) => setUser(value)}
             />
 
-            <InputField
-              placeholder="●●●●●●●●"
+            <InputPassword
               labelField="Senha"
               value={password}
               onChangeText={(value: string) => setPassword(value)}
             />
           </View>
 
+          {loginInvalid && (
+            <Text style={style.alertError}>E-mail ou senha inválidos</Text>
+          )}
           <View style={style.buttons}>
             <Button
               mode="contained"

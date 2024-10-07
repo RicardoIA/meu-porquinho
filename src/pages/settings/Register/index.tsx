@@ -12,16 +12,58 @@ import style from "./style";
 import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
+import InputPassword from "../../../components/InputPassword";
+import Utils from "../../../utils";
 
 export default function Home() {
   const { navigate } = useNavigation<StackNavigation>();
 
-  const [user, setUser] = React.useState("");
+  const [invalidPassword, setInvalidPassword] = React.useState(true);
+  const [messageAlert, setMessageAlert] = React.useState("");
+  const [fullname, setFullname] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [birthDate, setBirthDate] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [passwordConfirmed, setPasswordConfirmed] = React.useState("");
 
-  function goToHome() {
-    navigate("UserHome");
+  function register() {
+    setMessageAlert("");
+    console.log(messageAlert);
+    if (Utils.isEmpty(birthDate)) {
+      console.log(birthDate);
+      setMessageAlert(messageAlert + "\nData de nascimento inválida");
+    }
+    if (Utils.isEmpty(fullname)) {
+      setMessageAlert(messageAlert + "\nNome completo inválido");
+    }
+    if (Utils.isEmpty(email)) {
+      setMessageAlert(messageAlert + "\nE-mail inválido");
+    }
+    if (Utils.isEmpty(phone)) {
+      setMessageAlert(messageAlert + "\nPhone inválido");
+    }
+
+    checkPasswords();
+    if (!messageAlert && messageAlert !== "") {
+      goToLogin();
+    }
   }
+
+  function checkPasswords() {
+    if (
+      !password ||
+      !passwordConfirmed ||
+      password.length < 3 ||
+      password !== passwordConfirmed
+    ) {
+      setMessageAlert(messageAlert + "\nSenha inválida");
+      return;
+    }
+
+    setMessageAlert("");
+  }
+
   function goToLogin() {
     navigate("Login");
   }
@@ -46,42 +88,45 @@ export default function Home() {
         <View style={[theme.style.bodyContainer, style.body]}>
           <View style={style.bodyContainer}>
             <View style={style.fieldsContainer}>
+              {messageAlert && messageAlert !== "" && (
+                <>
+                  <Text style={style.alertError}>{messageAlert.trim()}</Text>
+                </>
+              )}
               <InputField
                 labelField="Nome Completo"
                 placeholder="example@example.com"
-                value={user}
-                onChangeText={(value: string) => setUser(value)}
+                value={fullname}
+                onChangeText={(value: string) => setFullname(value)}
               />
               <InputField
                 labelField="E-mail"
                 placeholder="example@example.com"
-                value={user}
-                onChangeText={(value: string) => setUser(value)}
+                value={email}
+                onChangeText={(value: string) => setEmail(value)}
               />
               <InputField
                 labelField="Telefone"
                 placeholder="+ 123 456 789"
-                value={user}
-                onChangeText={(value: string) => setUser(value)}
+                value={phone}
+                onChangeText={(value: string) => setPhone(value)}
               />
               <InputField
                 labelField="Data de Nascimento"
                 placeholder="DD/MM/AAAA"
-                value={user}
-                onChangeText={(value: string) => setUser(value)}
+                value={birthDate}
+                onChangeText={(value: string) => setBirthDate(value)}
               />
 
-              <InputField
+              <InputPassword
                 labelField="Senha"
-                placeholder="●●●●●●●●"
                 value={password}
                 onChangeText={(value: string) => setPassword(value)}
               />
-              <InputField
+              <InputPassword
                 labelField="Confirmar Senha"
-                placeholder="●●●●●●●●"
-                value={password}
-                onChangeText={(value: string) => setPassword(value)}
+                value={passwordConfirmed}
+                onChangeText={(value: string) => setPasswordConfirmed(value)}
               />
             </View>
           </View>
@@ -116,7 +161,7 @@ export default function Home() {
               textColor={theme.colors.letterDarkGreen}
               labelStyle={theme.style.firstButtonLabel}
               contentStyle={theme.style.firstButtonContainer}
-              onPress={goToHome}
+              onPress={register}
             >
               Cadastro
             </Button>
