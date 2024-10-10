@@ -20,8 +20,21 @@ export default StyleSheet.create({
     height: 40,
     width: "100%",
   },
+  defaultStyle: {
+    backgroundColor: colors.lightGreen,
+  },
   outlineStyle: {
     borderRadius: 40,
     borderWidth: 1,
+  },
+  errorStyle: {
+    backgroundColor: colors.lightRed,
+  },
+  outlineErrorStyle: {
+    borderColor: colors.red,
+  },
+  alert: {
+    color: colors.red,
+    textAlign: "center",
   },
 });

@@ -12,7 +12,6 @@ export default StyleSheet.create({
     paddingStart: 20,
   },
   textInput: {
-    backgroundColor: colors.lightGreen,
     fontFamily: "Poppins_Regular",
     fontSize: 16,
     paddingHorizontal: 10,
@@ -20,8 +19,21 @@ export default StyleSheet.create({
     height: 40,
     width: "100%",
   },
+  defaultStyle: {
+    backgroundColor: colors.lightGreen,
+  },
+  errorStyle: {
+    backgroundColor: colors.lightRed,
+  },
   outlineStyle: {
     borderRadius: 40,
     borderWidth: 1,
+  },
+  outlineErrorStyle: {
+    borderColor: colors.red,
+  },
+  alert: {
+    color: colors.red,
+    textAlign: "center",
   },
 });

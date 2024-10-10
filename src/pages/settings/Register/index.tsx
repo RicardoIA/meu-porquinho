@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
 import InputPassword from "../../../components/InputPassword";
 import Utils from "../../../utils";
+import { useState } from "react";
 
 export default function Home() {
   const { navigate } = useNavigation<StackNavigation>();
@@ -27,45 +28,75 @@ export default function Home() {
   const [password, setPassword] = React.useState("");
   const [passwordConfirmed, setPasswordConfirmed] = React.useState("");
 
-  function register() {
-    setMessageAlert("");
-    console.log(messageAlert);
-    if (Utils.isEmpty(birthDate)) {
-      console.log(birthDate);
-      setMessageAlert(messageAlert + "\nData de nascimento inválida");
-    }
-    if (Utils.isEmpty(fullname)) {
-      setMessageAlert(messageAlert + "\nNome completo inválido");
-    }
-    if (Utils.isEmpty(email)) {
-      setMessageAlert(messageAlert + "\nE-mail inválido");
-    }
-    if (Utils.isEmpty(phone)) {
-      setMessageAlert(messageAlert + "\nPhone inválido");
-    }
+  const [fullnameValid, setFullnameValid] = React.useState<string | boolean>(
+    true
+  );
+  const [emailValid, setEmailValid] = React.useState<string | boolean>(true);
+  const [phoneValid, setPhoneValid] = React.useState<string | boolean>(true);
+  const [birthDateValid, setBirthDateValid] = React.useState<string | boolean>(
+    true
+  );
+  const [passwordValid, setPasswordValid] = React.useState<string | boolean>(
+    true
+  );
+  const [passwordConfirmedValid, setPasswordConfirmedValid] = React.useState<
+    string | boolean
+  >(true);
 
-    checkPasswords();
-    if (!messageAlert && messageAlert !== "") {
+  function register() {
+    if (checkFields()) {
       goToLogin();
     }
   }
 
-  function checkPasswords() {
-    if (
-      !password ||
-      !passwordConfirmed ||
-      password.length < 3 ||
-      password !== passwordConfirmed
-    ) {
-      setMessageAlert(messageAlert + "\nSenha inválida");
-      return;
+  function checkFields(): boolean {
+    if (Utils.isEmpty(fullname)) {
+      setFullnameValid("Nome completo inválido");
+    }
+    checkEmail("E-mail inválido");
+
+    if (Utils.isEmpty(birthDate)) {
+      setPhoneValid("Data de nascimento inválida");
+    }
+    if (Utils.isEmpty(phone)) {
+      setBirthDateValid("Telefone inválido");
     }
 
-    setMessageAlert("");
+    if (Utils.isEmpty(password) || password.length < 3) {
+      setPasswordConfirmedValid("Senha inválida");
+    }
+
+    if (Utils.isEmpty(passwordConfirmed) || password !== passwordConfirmed) {
+      setPasswordConfirmedValid("Senha inválida");
+    }
+
+    if (
+      fullnameValid &&
+      emailValid &&
+      birthDateValid &&
+      phoneValid &&
+      password &&
+      passwordConfirmedValid
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   function goToLogin() {
     navigate("Login");
+  }
+
+  function checkEmail(msgError: string | boolean) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!email || email.length < 4 || emailRegex.test(email)) {
+      setEmailValid(msgError);
+      return;
+    }
+
+    setEmailValid(true);
   }
 
   function goToTermsOfUse() {
@@ -88,45 +119,88 @@ export default function Home() {
         <View style={[theme.style.bodyContainer, style.body]}>
           <View style={style.bodyContainer}>
             <View style={style.fieldsContainer}>
-              {messageAlert && messageAlert !== "" && (
-                <>
-                  <Text style={style.alertError}>{messageAlert.trim()}</Text>
-                </>
-              )}
               <InputField
                 labelField="Nome Completo"
-                placeholder="example@example.com"
+                placeholder="José da Silva"
                 value={fullname}
-                onChangeText={(value: string) => setFullname(value)}
+                valid={fullnameValid}
+                onChangeText={(value: string) => {
+                  if (Utils.isEmpty(value)) {
+                    setFullnameValid(false);
+                  } else {
+                    setFullnameValid(true);
+                  }
+                  setFullname(value);
+                }}
               />
               <InputField
                 labelField="E-mail"
                 placeholder="example@example.com"
                 value={email}
-                onChangeText={(value: string) => setEmail(value)}
+                valid={emailValid}
+                onChangeText={(value: string) => {
+                  if (Utils.isEmpty(value)) {
+                    setEmailValid(false);
+                  } else {
+                    setEmailValid(true);
+                  }
+                  setEmail(value);
+                }}
               />
               <InputField
                 labelField="Telefone"
                 placeholder="+ 123 456 789"
                 value={phone}
-                onChangeText={(value: string) => setPhone(value)}
+                valid={phoneValid}
+                onChangeText={(value: string) => {
+                  if (Utils.isEmpty(value)) {
+                    setPhoneValid(false);
+                  } else {
+                    setPhoneValid(true);
+                  }
+                  setPhone(value);
+                }}
               />
               <InputField
                 labelField="Data de Nascimento"
                 placeholder="DD/MM/AAAA"
                 value={birthDate}
-                onChangeText={(value: string) => setBirthDate(value)}
+                valid={birthDateValid}
+                onChangeText={(value: string) => {
+                  if (Utils.isEmpty(value)) {
+                    setBirthDateValid(false);
+                  } else {
+                    setBirthDateValid(true);
+                  }
+                  setBirthDate(value);
+                }}
               />
 
               <InputPassword
                 labelField="Senha"
                 value={password}
-                onChangeText={(value: string) => setPassword(value)}
+                valid={passwordValid}
+                onChangeText={(value: string) => {
+                  if (Utils.isEmpty(value)) {
+                    setPasswordValid(false);
+                  } else {
+                    setPasswordValid(true);
+                  }
+                  setPassword(value);
+                }}
               />
               <InputPassword
                 labelField="Confirmar Senha"
                 value={passwordConfirmed}
-                onChangeText={(value: string) => setPasswordConfirmed(value)}
+                valid={passwordConfirmedValid}
+                onChangeText={(value: string) => {
+                  if (Utils.isEmpty(value)) {
+                    setPasswordConfirmedValid(false);
+                  } else {
+                    setPasswordConfirmedValid(true);
+                  }
+                  setPasswordConfirmed(value);
+                }}
               />
             </View>
           </View>

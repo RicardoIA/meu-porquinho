@@ -4,12 +4,25 @@ import { TextInput } from "react-native-paper";
 import { colors } from "../../themes";
 import style from "./style";
 
-export default function InputPassword(props: any) {
+export interface InputPasswordProps {
+  placeholder?: string;
+  labelField: string;
+  value: string;
+  valid?: boolean | string;
+  onChangeText?: (value: string) => void;
+}
+
+export default function InputPassword(props: InputPasswordProps) {
   const [showPassword, setShowPassword] = React.useState(false);
 
   function onPressEye() {
     setShowPassword(!showPassword);
   }
+
+  function isInvalid() {
+    return props.valid === false || typeof props.valid === "string";
+  }
+
   return (
     <View style={style.container}>
       {props.labelField && <Text style={style.label}>{props.labelField}</Text>}
@@ -17,14 +30,21 @@ export default function InputPassword(props: any) {
       <TextInput
         mode="outlined"
         autoCapitalize="none"
-        style={style.textInput}
+        style={[
+          style.textInput,
+          isInvalid() ? style.errorStyle : style.defaultStyle,
+        ]}
         placeholder="●●●●●●●●"
-        autoComplete={Platform.OS === "web" ? "none" : "off"}
-        outlineStyle={style.outlineStyle}
+        outlineStyle={[
+          style.outlineStyle,
+          isInvalid() ? style.outlineErrorStyle : null,
+        ]}
         outlineColor={colors.lightGreen}
         placeholderTextColor={colors.gray}
-        defaultValue={props.value}
+        value={props.value}
         secureTextEntry={!showPassword}
+        defaultValue=""
+        onChangeText={props.onChangeText}
         right={
           <TextInput.Icon
             icon={showPassword ? "eye-off" : "eye"}
@@ -32,8 +52,12 @@ export default function InputPassword(props: any) {
             onPressIn={onPressEye}
           />
         }
-        {...props}
       />
+      {isInvalid() && (
+        <Text style={style.alert}>
+          {props.valid === false ? "Campo inválido" : props.valid}
+        </Text>
+      )}
     </View>
   );
 }
