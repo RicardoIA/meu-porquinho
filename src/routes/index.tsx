@@ -21,6 +21,11 @@ export default function Routes() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
+        name="Welcome"
+        component={Welcome}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
         name="Register"
         component={Register}
         options={{ gestureEnabled: false }}
@@ -28,11 +33,6 @@ export default function Routes() {
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{ gestureEnabled: false }}
-      />
-      <Stack.Screen
-        name="Welcome"
-        component={Welcome}
         options={{ gestureEnabled: false }}
       />
 
