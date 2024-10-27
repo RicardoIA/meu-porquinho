@@ -115,9 +115,11 @@ export interface IModelWallet {
 
 /** Auth User */
 export interface IAuthContextType {
-  user: any;
   login: (userLogin: IUserLogin) => Promise<boolean>;
   logout: () => Promise<void>;
   isLoading: boolean;
   isLoggedIn: boolean;
+  isAdmin: boolean;
+  user: IModelUser | null;
+  token: string | null;
 }

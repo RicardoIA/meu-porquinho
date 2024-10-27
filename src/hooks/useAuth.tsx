@@ -1,6 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useContext, useEffect, useState } from "react";
 import { authService } from "../services/api";
+import { AsyncStorageManager } from "../storage/AsyncStorageManager";
+import { StoredItem } from "../utils/enums";
 import { IAuthContextType, IModelUser, IUserLogin } from "../utils/interfaces";
 import { log } from "../utils/log";
 
@@ -20,7 +22,9 @@ export const useAuth = () => {
 };
 
 const useProvideAuth = () => {
-  const [user, setUser] = useState<string | IModelUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<IModelUser | null>(null);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [error, setError] = useState<any>(null);
@@ -29,14 +33,15 @@ const useProvideAuth = () => {
     const checkUserLoggedIn = async () => {
       setIsLoading(true);
       try {
-        const storedUser = await AsyncStorage.getItem("userToken");
+        const storedUser = await AsyncStorageManager.getItem<string>(
+          StoredItem.userToken
+        );
         if (storedUser) {
-          setUser(storedUser);
-          console.log("storedUser", storedUser);
+          setToken(storedUser);
           setIsLoggedIn(true);
         }
       } catch (error) {
-        console.error("Erro ao carregar estado do usuário:", error);
+        log.write("Recovery User (failed)", error);
       } finally {
         setIsLoading(false);
       }
@@ -46,7 +51,7 @@ const useProvideAuth = () => {
   }, []);
 
   const login = async (userLogin: IUserLogin) => {
-    setUser(null);
+    setToken(null);
     setIsLoggedIn(false);
 
     try {
@@ -65,8 +70,11 @@ const useProvideAuth = () => {
       const token = resp.data?.token;
 
       if (token) {
-        await AsyncStorage.setItem("userToken", token);
-        setUser(token);
+        await AsyncStorageManager.setItem(StoredItem.userToken, token);
+        setToken(token);
+
+        await getUser();
+
         setIsLoggedIn(true);
       } else {
         throw new Error("Token de autenticação não encontrado.");
@@ -85,21 +93,59 @@ const useProvideAuth = () => {
     }
   };
 
+  const getUser = async () => {
+    try {
+      const resp = await authService.getUser();
+
+      if (resp.status !== 200) {
+        throw new Error(
+          JSON.stringify({
+            data: resp.data,
+            status: resp.status,
+          })
+        );
+      }
+
+      const user: IModelUser | null = resp.data;
+
+      if (user) {
+        await AsyncStorageManager.setItem(StoredItem.user, user);
+        if (user.role.toLowerCase() === "admin") {
+          setIsAdmin(true);
+        }
+
+        setUser(user);
+      } else {
+        throw new Error("Usuário não encontrado.");
+      }
+    } catch (error) {
+      log.write("GetUser (failed)", error);
+      setError(error);
+    }
+  };
+
   const logout = async () => {
     try {
       await AsyncStorage.removeItem("userToken");
+
+      setToken(null);
       setUser(null);
+      setIsAdmin(false);
       setIsLoggedIn(false);
+
+      log.write("Logout (success)");
     } catch (error) {
-      console.error("Erro ao fazer logout:", error);
+      log.write("Logout (failed)", error);
     }
   };
 
   return {
-    user,
     login,
     logout,
     isLoading,
     isLoggedIn,
+    isAdmin,
+    user,
+    token,
   };
 };

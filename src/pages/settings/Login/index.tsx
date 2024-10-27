@@ -1,4 +1,6 @@
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import * as React from "react";
+import { useEffect } from "react";
 import {
   Keyboard,
   ScrollView,
@@ -6,35 +8,41 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import InputField from "../../../components/InputField";
-import * as theme from "./../../../themes";
-import style from "./style";
 import { Button } from "react-native-paper";
-import { CommonActions, useNavigation } from "@react-navigation/native";
-import { StackNavigation } from "../../../routes";
-import Utils from "../../../utils";
+import InputField from "../../../components/InputField";
 import InputPassword from "../../../components/InputPassword";
 import { useAuth } from "../../../hooks/useAuth";
-import { useEffect } from "react";
+import { StackNavigation } from "../../../routes";
+import Utils from "../../../utils";
+import * as theme from "./../../../themes";
+import style from "./style";
 
 export default function Home() {
   const navigation = useNavigation<StackNavigation>();
-  const { login, logout, user, isLoading, isLoggedIn } = useAuth();
+  const { login, user, isAdmin } = useAuth();
 
   const [username, setUsername] = React.useState("ricardo");
   const [password, setPassword] = React.useState("admin1");
   const [loginInvalid, setLoginInvalid] = React.useState<boolean | null>(null);
   const [loginLoading, setLoginLoading] = React.useState<boolean>(false);
-  const [loginPress, setloginPress] = React.useState<boolean>(false);
 
   useEffect(() => {
     if (user) {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "UserHome" }],
-        })
-      );
+      if (isAdmin) {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "AdminHome" }],
+          })
+        );
+      } else {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "UserHome" }],
+          })
+        );
+      }
 
       setLoginInvalid(false);
     }
@@ -62,7 +70,6 @@ export default function Home() {
           setLoginLoading(false);
         });
     } catch (error) {
-      console.log("handleLogin:", error);
       setLoginInvalid(true);
       setLoginLoading(false);
     }

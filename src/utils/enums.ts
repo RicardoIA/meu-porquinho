@@ -31,3 +31,8 @@ export enum VaultStatus {
   active,
   closed,
 }
+
+export enum StoredItem {
+  userToken,
+  user,
+}

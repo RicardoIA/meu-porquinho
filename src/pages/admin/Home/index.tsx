@@ -16,15 +16,18 @@ import * as theme from "./../../../themes";
 import style from "./style";
 import ResumeAccount from "../../../components/ResumeAccount";
 import colors from "../../../themes/colors";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
+import { useAuth } from "../../../hooks/useAuth";
 
 const iconGetOut = Image.resolveAssetSource(
   require("./../../../assets/icon-get-out.svg")
 );
 
 export default function AdminHome() {
+  const navigation = useNavigation<StackNavigation>();
   const { navigate } = useNavigation<StackNavigation>();
+  const { logout } = useAuth();
 
   const data = {
     valueSafe: 4000,
@@ -32,9 +35,17 @@ export default function AdminHome() {
     userName: "@Admin",
     pixKey: "77.924.749/0001-50",
   };
-
-  function onPreesExit() {
-    console.log("Closed press");
+  function onPressLogout() {
+    logout().then(() => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Welcome" }],
+        })
+      );
+      // fecha o aplicativo
+      //BackHandler.exitApp();
+    });
   }
 
   function onPressWithdraw() {
@@ -76,7 +87,7 @@ export default function AdminHome() {
               iconColor={theme.colors.letersAndIcons}
               style={theme.style.iconGetOut}
               mode="contained"
-              onPress={onPreesExit}
+              onPress={onPressLogout}
             />
           </View>
           <View style={style.resumeAccount}>
