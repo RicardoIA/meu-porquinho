@@ -1,5 +1,6 @@
 import * as React from "react";
 import {
+  BackHandler,
   Image,
   Keyboard,
   ScrollView,
@@ -15,9 +16,10 @@ import style from "./style";
 import { SvgUri } from "react-native-svg";
 import NewVault from "../../../components/NewVault";
 import PixContainer from "../../../components/PixContainer";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
 import Utils from "../../../utils";
+import { useAuth } from "../../../hooks/useAuth";
 
 const iconArrowDown = Image.resolveAssetSource(
   require("./../../../assets/arrow-down.svg")
@@ -30,6 +32,8 @@ const iconGetOut = Image.resolveAssetSource(
 );
 
 export default function Home() {
+  const navigation = useNavigation<StackNavigation>();
+
   const data = {
     valueSafe: 0,
     userName: "@Usuario",
@@ -40,9 +44,21 @@ export default function Home() {
     pixKey: "77.924.749/0001-50",
   };
 
-  function onPreesExit() {
-    console.log("Closed press");
+  const { logout, isLoggedIn } = useAuth();
+
+  function onPressLogout() {
+    logout().then(() => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "Welcome" }],
+        })
+      );
+      // fecha o aplicativo
+      //BackHandler.exitApp();
+    });
   }
+
   function onPressWithdraw() {
     console.log("Withdraw:", data.valueSafe);
   }
@@ -77,7 +93,7 @@ export default function Home() {
               iconColor={theme.colors.letersAndIcons}
               style={theme.style.iconGetOut}
               mode="contained"
-              onPress={onPreesExit}
+              onPress={onPressLogout}
             />
           </View>
           <View style={style.resumeAccount}>

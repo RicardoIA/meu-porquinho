@@ -32,9 +32,6 @@ export default function Welcome() {
 
         <View style={style.titleContainer}>
           <Text style={theme.style.title}>Meu Porquinho</Text>
-          <Text style={theme.style.title}>
-            {process.env.EXPO_PUBLIC_API_URL}
-          </Text>
         </View>
       </View>
       <View style={style.buttons}>

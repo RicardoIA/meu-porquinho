@@ -6,7 +6,7 @@ export enum HttpMethod {
   PUT,
 }
 
-export enum PixKeyType {
+export enum WalletPixKeyType {
   document,
   phoneNumber,
   email,
@@ -25,4 +25,9 @@ export enum WithdrawalAction {
 
 export enum WithdrawalStatus {
   pending,
+}
+
+export enum VaultStatus {
+  active,
+  closed,
 }

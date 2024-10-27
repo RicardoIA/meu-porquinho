@@ -10,35 +10,70 @@ import InputField from "../../../components/InputField";
 import * as theme from "./../../../themes";
 import style from "./style";
 import { Button } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
 import Utils from "../../../utils";
 import InputPassword from "../../../components/InputPassword";
+import { useAuth } from "../../../hooks/useAuth";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { navigate } = useNavigation<StackNavigation>();
+  const navigation = useNavigation<StackNavigation>();
+  const { login, logout, user, isLoading, isLoggedIn } = useAuth();
 
-  const [user, setUser] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [loginInvalid, setLoginInvalid] = React.useState(false);
+  const [username, setUsername] = React.useState("ricardo");
+  const [password, setPassword] = React.useState("admin1");
+  const [loginInvalid, setLoginInvalid] = React.useState<boolean | null>(null);
+  const [loginLoading, setLoginLoading] = React.useState<boolean>(false);
+  const [loginPress, setloginPress] = React.useState<boolean>(false);
 
-  const goToLogin = () => {
-    console.log(user, "|", password);
-    if (Utils.isEmpty(user) || Utils.isEmpty(password)) {
-      setLoginInvalid(true);
-      return;
+  useEffect(() => {
+    if (user) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "UserHome" }],
+        })
+      );
+
+      setLoginInvalid(false);
     }
+  }, [user]);
 
-    setLoginInvalid(false);
-    navigate("UserHome");
+  const handleLogin = async () => {
+    setLoginLoading(true);
+    try {
+      if (Utils.isEmpty(username) || Utils.isEmpty(password)) {
+        return;
+      }
+
+      login({ username, password })
+        .then((success) => {
+          if (success) {
+            setLoginInvalid(false);
+          } else {
+            throw new Error("failed Login");
+          }
+
+          setLoginLoading(false);
+        })
+        .catch((e) => {
+          setLoginInvalid(true);
+          setLoginLoading(false);
+        });
+    } catch (error) {
+      console.log("handleLogin:", error);
+      setLoginInvalid(true);
+      setLoginLoading(false);
+    }
   };
 
   const goToRegister = () => {
-    navigate("Register");
+    navigation.navigate("Register");
   };
 
   const goToRecoverPassword = () => {
-    navigate("RecoverPassword");
+    navigation.navigate("RecoverPassword");
   };
   return (
     <TouchableWithoutFeedback
@@ -55,8 +90,8 @@ export default function Home() {
             <InputField
               placeholder="example@example.com"
               labelField="Usuário / E-mail"
-              value={user}
-              onChangeText={(value: string) => setUser(value)}
+              value={username}
+              onChangeText={(value: string) => setUsername(value)}
             />
 
             <InputPassword
@@ -65,8 +100,7 @@ export default function Home() {
               onChangeText={(value: string) => setPassword(value)}
             />
           </View>
-
-          {loginInvalid && (
+          {loginInvalid === true && (
             <Text style={style.alertError}>E-mail ou senha inválidos</Text>
           )}
           <View style={style.buttons}>
@@ -75,7 +109,9 @@ export default function Home() {
               textColor={theme.colors.letterDarkGreen}
               labelStyle={theme.style.firstButtonLabel}
               contentStyle={theme.style.firstButtonContainer}
-              onPress={goToLogin}
+              onPress={handleLogin}
+              loading={loginLoading}
+              disabled={loginLoading}
             >
               Login
             </Button>

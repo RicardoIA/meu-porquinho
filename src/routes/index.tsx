@@ -14,12 +14,18 @@ import Login from "./../pages/settings/Login";
 import NewPassword from "./../pages/settings/NewPassword";
 import RecoverPassword from "./../pages/settings/RecoverPassword";
 import Register from "./../pages/settings/Register";
+import { useAuth } from "../hooks/useAuth";
 
 const Stack = createNativeStackNavigator();
 
 export default function Routes() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ gestureEnabled: false }}
+      />
       <Stack.Screen
         name="Welcome"
         component={Welcome}
@@ -28,11 +34,6 @@ export default function Routes() {
       <Stack.Screen
         name="Register"
         component={Register}
-        options={{ gestureEnabled: false }}
-      />
-      <Stack.Screen
-        name="Login"
-        component={Login}
         options={{ gestureEnabled: false }}
       />
 

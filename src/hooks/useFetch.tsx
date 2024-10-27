@@ -22,7 +22,6 @@ export const useFetch = (method: HttpMethod, url: string) => {
           method: HttpMethod[me],
         });
         setData(response.data);
-        Alert.alert(data);
       } catch (err) {
         setError(err);
       } finally {

@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 import {
   Keyboard,
   ScrollView,
@@ -6,40 +7,30 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { Button } from "react-native-paper";
 import InputField from "../../../components/InputField";
+import InputPassword from "../../../components/InputPassword";
+import { StackNavigation } from "../../../routes";
+import Utils from "../../../utils";
 import * as theme from "./../../../themes";
 import style from "./style";
-import { Button } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigation } from "../../../routes";
-import InputPassword from "../../../components/InputPassword";
-import Utils from "../../../utils";
-import { useState } from "react";
 
 export default function Home() {
   const { navigate } = useNavigation<StackNavigation>();
 
-  const [invalidPassword, setInvalidPassword] = React.useState(true);
-  const [messageAlert, setMessageAlert] = React.useState("");
-  const [fullname, setFullname] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [phone, setPhone] = React.useState("");
-  const [birthDate, setBirthDate] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [passwordConfirmed, setPasswordConfirmed] = React.useState("");
+  const [fullname, setFullname] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmed, setPasswordConfirmed] = useState("");
 
-  const [fullnameValid, setFullnameValid] = React.useState<string | boolean>(
-    true
-  );
-  const [emailValid, setEmailValid] = React.useState<string | boolean>(true);
-  const [phoneValid, setPhoneValid] = React.useState<string | boolean>(true);
-  const [birthDateValid, setBirthDateValid] = React.useState<string | boolean>(
-    true
-  );
-  const [passwordValid, setPasswordValid] = React.useState<string | boolean>(
-    true
-  );
-  const [passwordConfirmedValid, setPasswordConfirmedValid] = React.useState<
+  const [fullnameValid, setFullnameValid] = useState<string | boolean>(true);
+  const [emailValid, setEmailValid] = useState<string | boolean>(true);
+  const [phoneValid, setPhoneValid] = useState<string | boolean>(true);
+  const [birthDateValid, setBirthDateValid] = useState<string | boolean>(true);
+  const [passwordValid, setPasswordValid] = useState<string | boolean>(true);
+  const [passwordConfirmedValid, setPasswordConfirmedValid] = useState<
     string | boolean
   >(true);
 

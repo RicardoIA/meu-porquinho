@@ -1,4 +1,9 @@
-import { PixKeyType, WithdrawalAction } from "./enums";
+import {
+  WalletPixKeyType,
+  TransactionType,
+  VaultStatus,
+  WithdrawalAction,
+} from "./enums";
 
 export interface IUserRegistration {
   username: string;
@@ -31,7 +36,7 @@ export interface IAddBalanceWallet {
 }
 export interface ISetPixKey {
   pixKey: string;
-  pixKeyType: PixKeyType;
+  pixKeyType: WalletPixKeyType;
 }
 
 // Transaction
@@ -61,4 +66,58 @@ export interface IGetVaults {
 export interface IWithdrawVault {
   vaultId: number;
   depositAmmount: number;
+}
+
+export interface IModelUser {
+  password: string;
+  role: string;
+  phone: string;
+  cpf: string;
+  email: string;
+  balance: number;
+}
+
+// Models
+export interface IModelUser {
+  password: string;
+  role: string;
+  phone: string;
+  cpf: string;
+  email: string;
+  balance: number;
+}
+export interface IModelTransaction {
+  transactionId: number;
+  userId: number;
+  amount: number;
+  type: TransactionType;
+  balanceAfter: number;
+  status: string;
+  pixCode: string;
+  pixPaymentCodeBase64: string;
+}
+export interface IModelVault {
+  vaultId: number;
+  walletId: number;
+  depositAmount: number;
+  withdrawDate: Date;
+  status: VaultStatus;
+}
+export interface IModelWallet {
+  walletId: number;
+  userId: number;
+  balance: number;
+  bonusBalance: number;
+  transactionToken: string;
+  pixKey: string;
+  pixKeyType: WalletPixKeyType;
+}
+
+/** Auth User */
+export interface IAuthContextType {
+  user: any;
+  login: (userLogin: IUserLogin) => Promise<boolean>;
+  logout: () => Promise<void>;
+  isLoading: boolean;
+  isLoggedIn: boolean;
 }
