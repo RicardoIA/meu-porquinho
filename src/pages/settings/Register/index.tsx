@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useEffect, useState } from "react";
 import {
   Keyboard,
   ScrollView,
@@ -14,9 +14,13 @@ import { StackNavigation } from "../../../routes";
 import Utils from "../../../utils";
 import * as theme from "./../../../themes";
 import style from "./style";
+import { useAuth } from "../../../hooks/useAuth";
+import { log } from "../../../utils/log";
+import { IUserRegistration } from "../../../utils/interfaces";
 
 export default function Home() {
-  const { navigate } = useNavigation<StackNavigation>();
+  const navigation = useNavigation<StackNavigation>();
+  const { register, user, isAdmin } = useAuth();
 
   const [fullname, setFullname] = useState("");
   const [email, setEmail] = useState("");
@@ -34,9 +38,46 @@ export default function Home() {
     string | boolean
   >(true);
 
-  function register() {
+  useEffect(() => {
+    if (user) {
+      if (isAdmin) {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "AdminHome" }],
+          })
+        );
+      } else {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{ name: "UserHome" }],
+          })
+        );
+      }
+    }
+  }, [user]);
+
+  function handleRegister() {
     if (checkFields()) {
-      goToLogin();
+      try {
+        const userData: IUserRegistration = {
+          cpf: "",
+          email,
+          password,
+          phone,
+          username: fullname,
+        };
+
+        register(userData)
+          .then((success) => {
+            if (success) {
+            } else {
+              throw new Error("failed Login");
+            }
+          })
+          .catch((e) => {});
+      } catch (error) {}
     }
   }
 
@@ -76,7 +117,7 @@ export default function Home() {
   }
 
   function goToLogin() {
-    navigate("Login");
+    navigation.navigate("Login");
   }
 
   function checkEmail(msgError: string | boolean) {
@@ -91,10 +132,10 @@ export default function Home() {
   }
 
   function goToTermsOfUse() {
-    console.log("Access: Terms Of Use");
+    log.write("Access: Terms Of Use");
   }
   function goToPrivacyPolicy() {
-    console.log("Access: PrivacyPolicy");
+    log.write("Access: PrivacyPolicy");
   }
 
   return (
@@ -226,7 +267,7 @@ export default function Home() {
               textColor={theme.colors.letterDarkGreen}
               labelStyle={theme.style.firstButtonLabel}
               contentStyle={theme.style.firstButtonContainer}
-              onPress={register}
+              onPress={handleRegister}
             >
               Cadastro
             </Button>

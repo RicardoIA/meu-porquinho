@@ -3,7 +3,12 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { authService } from "../services/api";
 import { AsyncStorageManager } from "../storage/AsyncStorageManager";
 import { StoredItem } from "../utils/enums";
-import { IAuthContextType, IModelUser, IUserLogin } from "../utils/interfaces";
+import {
+  IAuthContextType,
+  IModelUser,
+  IUserLogin,
+  IUserRegistration,
+} from "../utils/interfaces";
 import { log } from "../utils/log";
 
 const AuthContext = createContext<IAuthContextType | undefined>(undefined);
@@ -51,10 +56,9 @@ const useProvideAuth = () => {
   }, []);
 
   const login = async (userLogin: IUserLogin) => {
-    setToken(null);
-    setIsLoggedIn(false);
-
     try {
+      setToken(null);
+      setIsLoggedIn(false);
       setIsLoading(true);
       const resp = await authService.login(userLogin);
 
@@ -126,7 +130,8 @@ const useProvideAuth = () => {
 
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem("userToken");
+      await AsyncStorageManager.removeUser();
+      await AsyncStorageManager.removeItem(StoredItem.userToken);
 
       setToken(null);
       setUser(null);
@@ -139,9 +144,65 @@ const useProvideAuth = () => {
     }
   };
 
+  const register = async (data: IUserRegistration) => {
+    try {
+      setToken(null);
+      setIsLoggedIn(false);
+      setIsLoading(true);
+
+      const resp = await authService.register(data);
+
+      if (resp.status !== 200) {
+        throw new Error(
+          JSON.stringify({
+            data: resp.data,
+            status: resp.status,
+          })
+        );
+      }
+
+      const user: IModelUser | null = resp.data.user;
+      const token = resp.data?.token;
+
+      // check user
+      if (user) {
+        await AsyncStorageManager.setItem(StoredItem.user, user);
+        if (user.role.toLowerCase() === "admin") {
+          setIsAdmin(true);
+        }
+
+        setUser(user);
+      } else {
+        throw new Error("Usuário não encontrado.");
+      }
+
+      //check token
+      if (token) {
+        await AsyncStorageManager.setItem(StoredItem.userToken, token);
+        setToken(token);
+
+        await getUser();
+
+        setIsLoggedIn(true);
+      } else {
+        throw new Error("Token de autenticação não encontrado.");
+      }
+
+      log.write("Register (success)");
+      return true;
+    } catch (error) {
+      log.write("Register (failed)", error);
+      setError(error);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     login,
     logout,
+    register,
     isLoading,
     isLoggedIn,
     isAdmin,

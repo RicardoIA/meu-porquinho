@@ -9,8 +9,7 @@ export class AsyncStorageManager {
       const jsonValue = await AsyncStorage.getItem(StoredItem[key]);
       return jsonValue ? JSON.parse(jsonValue) : null;
     } catch (error) {
-      log.write("User Recovery (failed)", error);
-      log.write(`AsyncStorageManager: retrieve item "${key}" (failed)`, error);
+      log.write(`AsyncStorageManager: Retrieve item "${key}" (failed)`, error);
       return null;
     }
   }
@@ -20,7 +19,15 @@ export class AsyncStorageManager {
       const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem(StoredItem[key], jsonValue);
     } catch (error) {
-      log.write(`AsyncStorageManager: save item "${key}" (failed)`, error);
+      log.write(`AsyncStorageManager: Save item "${key}" (failed)`, error);
+    }
+  }
+
+  static async removeItem(key: StoredItem): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(StoredItem[key]);
+    } catch (error) {
+      log.write(`AsyncStorageManager: Remove item "${key}" (failed)`, error);
     }
   }
 
@@ -43,6 +50,14 @@ export class AsyncStorageManager {
       await AsyncStorage.setItem(StoredItem[StoredItem.user], jsonUser);
     } catch (error) {
       log.write("AsyncStorageManager: User Storage (failed)", error);
+    }
+  }
+
+  static async removeUser(): Promise<void> {
+    try {
+      await AsyncStorage.removeItem(StoredItem[StoredItem.user]);
+    } catch (error) {
+      log.write(`AsyncStorageManager: User Remove (failed)`, error);
     }
   }
 }
