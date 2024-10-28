@@ -2,6 +2,7 @@ import { CommonActions, useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { useEffect } from "react";
 import {
+  FlatList,
   Image,
   Keyboard,
   ScrollView,
@@ -17,9 +18,9 @@ import Vault from "../../../components/Vault";
 import { useAuth } from "../../../hooks/useAuth";
 import { useFetch } from "../../../hooks/useFetch";
 import { StackNavigation } from "../../../routes";
-import { walletService } from "../../../services/api";
+import { vaultService, walletService } from "../../../services/api";
 import Utils from "../../../utils";
-import { IModelWallet } from "../../../utils/interfaces";
+import { IModelVault, IModelWallet } from "../../../utils/interfaces";
 import * as theme from "./../../../themes";
 import style from "./style";
 import { log } from "../../../utils/log";
@@ -39,19 +40,31 @@ export default function Home() {
   const { logout, user } = useAuth();
 
   const getWallet = useFetch(walletService.get);
+  const getVaults = useFetch(vaultService.getAll);
 
   useEffect(() => {
     try {
       if (getWallet.success && getWallet.response) {
-        console.log("reps 2", getWallet.success, getWallet.response);
         setWallet(getWallet.response);
       }
-    } catch (err) {
-      log.writeError(JSON.stringify(err), getWallet.response);
+    } catch (error) {
+      log.write("GetWallet (failed)", error);
     }
   }, [getWallet.success, getWallet.response]);
 
+  useEffect(() => {
+    try {
+      if (getVaults.success && getVaults.response) {
+        console.log(getVaults.response.vaults);
+        setVaults(getVaults.response.vaults);
+      }
+    } catch (error) {
+      log.write("getVaults (failed)", error);
+    }
+  }, [getVaults.success, getVaults.response]);
+
   const [wallet, setWallet] = React.useState<IModelWallet | null>(null);
+  const [vaults, setVaults] = React.useState<IModelVault[]>([]);
 
   var data = {
     valueSafe: 0,
@@ -170,7 +183,7 @@ export default function Home() {
             <Vault
               title="Cofre 1"
               valueSafe={data.valueSafe}
-              withdrawDate="15/10/2012"
+              withdrawDate={new Date()}
               btnWithout={true}
               btnWithoutOnPress={onPressWithdraw}
             />
@@ -178,11 +191,29 @@ export default function Home() {
             <Vault
               title="Cofre 2"
               valueSafe={data.valueSafe}
-              withdrawDate="25/10/2024"
+              withdrawDate={new Date()}
               btnWithout={true}
               btnWithoutDisable={true}
               btnWithoutOnPress={() => console.log("without cofre 2")}
             />
+
+            {vaults && (
+              <FlatList
+                scrollEnabled={false}
+                data={vaults}
+                renderItem={({ item }) => (
+                  <Vault
+                    title={`Cofre ${vaults.indexOf(item)}`}
+                    valueSafe={item.depositAmount}
+                    withdrawDate={item.withdrawDate}
+                    btnWithout={true}
+                    btnWithoutOnPress={() => console.log("without cofre 2")}
+                  />
+                )}
+                keyExtractor={(item) => item?.vaultId.toString()}
+              />
+            )}
+
             <NewVault
               value={data.newVaultValue}
               withdrawDate={data.newVaultDate}

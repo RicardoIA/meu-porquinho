@@ -23,7 +23,7 @@ const iconCalendar = Image.resolveAssetSource(
 export interface VaultProps {
   title: string;
   valueSafe: number;
-  withdrawDate?: string;
+  withdrawDate?: Date;
   pixKey?: string;
   styleContainer?: any;
   btnWithout?: boolean;
@@ -33,6 +33,11 @@ export interface VaultProps {
 
 export default function Vault(props: VaultProps) {
   const { navigate } = useNavigation<StackNavigation>();
+
+  var withdrawDisable = true;
+  if (props.withdrawDate) {
+    withdrawDisable = props.withdrawDate >= new Date();
+  }
 
   function goToLogin() {
     navigate("UserWithdraw");
@@ -75,7 +80,7 @@ export default function Vault(props: VaultProps) {
                 <View style={style.groupContentInfo}>
                   <Text style={style.titleGroupContent}>Data para saque</Text>
                   <Text style={style.labelContentBlue}>
-                    {props.withdrawDate}
+                    {props.withdrawDate.toLocaleDateString()}
                   </Text>
                 </View>
               </View>
@@ -109,7 +114,7 @@ export default function Vault(props: VaultProps) {
           style={[theme.style.secondButton, style.button]}
           labelStyle={theme.style.secondButtonLabel}
           contentStyle={theme.style.secondButtonContainer}
-          disabled={props.btnWithoutDisable}
+          disabled={withdrawDisable}
           onPress={goToLogin}
         >
           SACAR
