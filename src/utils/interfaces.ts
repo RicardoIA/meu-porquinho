@@ -75,6 +75,7 @@ export interface IModelUser {
   cpf: string;
   email: string;
   balance: number;
+  username: string;
 }
 
 // Models

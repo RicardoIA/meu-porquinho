@@ -87,7 +87,7 @@ class AuthService {
 
 class WalletService {
   async get() {
-    return await service.post("/api/wallet", await configAuth());
+    return await service.get("/api/wallet", await configAuth());
   }
 
   async add(data: IAddBalanceWallet) {

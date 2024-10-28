@@ -1,6 +1,7 @@
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import * as React from "react";
+import { useEffect } from "react";
 import {
-  BackHandler,
   Image,
   Keyboard,
   ScrollView,
@@ -8,18 +9,20 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { Button, IconButton } from "react-native-paper";
-
-import Vault from "../../../components/Vault";
-import * as theme from "./../../../themes";
-import style from "./style";
+import { IconButton } from "react-native-paper";
 import { SvgUri } from "react-native-svg";
 import NewVault from "../../../components/NewVault";
 import PixContainer from "../../../components/PixContainer";
-import { CommonActions, useNavigation } from "@react-navigation/native";
-import { StackNavigation } from "../../../routes";
-import Utils from "../../../utils";
+import Vault from "../../../components/Vault";
 import { useAuth } from "../../../hooks/useAuth";
+import { useFetch } from "../../../hooks/useFetch";
+import { StackNavigation } from "../../../routes";
+import { walletService } from "../../../services/api";
+import Utils from "../../../utils";
+import { IModelWallet } from "../../../utils/interfaces";
+import * as theme from "./../../../themes";
+import style from "./style";
+import { log } from "../../../utils/log";
 
 const iconArrowDown = Image.resolveAssetSource(
   require("./../../../assets/arrow-down.svg")
@@ -33,25 +36,35 @@ const iconGetOut = Image.resolveAssetSource(
 
 export default function Home() {
   const navigation = useNavigation<StackNavigation>();
+  const { logout, user } = useAuth();
 
-  const data = {
+  const getWallet = useFetch(walletService.get);
+
+  useEffect(() => {
+    try {
+      if (getWallet.success && getWallet.response) {
+        console.log("reps 2", getWallet.success, getWallet.response);
+        setWallet(getWallet.response);
+      }
+    } catch (err) {
+      log.writeError(JSON.stringify(err), getWallet.response);
+    }
+  }, [getWallet.success, getWallet.response]);
+
+  const [wallet, setWallet] = React.useState<IModelWallet | null>(null);
+
+  var data = {
     valueSafe: 0,
-    userName: "@Usuario",
-    withdrawalAvailable: 1187.4,
-    totalSaved: 7783,
     newVaultValue: 4000,
     newVaultDate: "25 Set. 2024",
-    pixKey: "77.924.749/0001-50",
   };
-
-  const { logout, isLoggedIn } = useAuth();
 
   function onPressLogout() {
     logout().then(() => {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{ name: "Welcome" }],
+          routes: [{ name: "Login" }],
         })
       );
       // fecha o aplicativo
@@ -64,8 +77,33 @@ export default function Home() {
   }
 
   function onPressEditPix() {
-    console.log("Pix:", data.pixKey);
+    console.log("Pix:", wallet?.pixKey);
   }
+
+  // const getWallet = async () => {
+  //   try {
+  //     const resp = await walletService.get();
+
+  //     if (resp.status !== 200) {
+  //       throw new Error(
+  //         JSON.stringify({
+  //           data: resp.data,
+  //           status: resp.status,
+  //         })
+  //       );
+  //     }
+
+  //     const wallet: IModelWallet | null = resp.data;
+
+  //     if (wallet) {
+  //       setWallet(wallet);
+  //     } else {
+  //       throw new Error("Wallet not found.");
+  //     }
+  //   } catch (error) {
+  //     log.write("Get Wallet (failed)", error);
+  //   }
+  // };
 
   return (
     <TouchableWithoutFeedback
@@ -76,9 +114,9 @@ export default function Home() {
         <View style={style.headerMain}>
           <View style={style.headerMainTop}>
             <View style={style.greetingMessage}>
-              <Text style={style.headerTitle}>Olá!</Text>
+              <Text style={style.headerTitle}>Olá! Usuário</Text>
               <Text style={style.headerSubtitle}>
-                Seja bem vindo {data.userName}!
+                Seja bem vindo {user?.username}!
               </Text>
             </View>
 
@@ -107,7 +145,7 @@ export default function Home() {
                 <Text style={style.resumeAccountTitle}>Total Guardado</Text>
               </View>
               <Text style={style.resumeAccountValueWhite}>
-                {Utils.formatMonetaryNumber(data.totalSaved)}
+                {Utils.formatMonetaryNumber(wallet?.balance)}
               </Text>
             </View>
             <View style={style.verticalLine} />
@@ -121,7 +159,7 @@ export default function Home() {
                 <Text style={style.resumeAccountTitle}>Saque Disponível</Text>
               </View>
               <Text style={style.resumeAccountValueBlue}>
-                {Utils.formatMonetaryNumber(data.withdrawalAvailable)}
+                {Utils.formatMonetaryNumber(wallet?.bonusBalance)}
               </Text>
             </View>
           </View>
@@ -150,7 +188,7 @@ export default function Home() {
               withdrawDate={data.newVaultDate}
             />
             <PixContainer
-              pixKey={data.pixKey}
+              pixKey={wallet?.pixKey}
               btnEditOnPress={onPressEditPix}
             />
           </View>

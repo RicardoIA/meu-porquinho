@@ -1,5 +1,9 @@
 export default class Utils {
-  static formatMonetaryNumber(value: number): string {
+  static formatMonetaryNumber(value: number | null | undefined): string {
+    if (!value) {
+      return "0.00";
+    }
+
     return `$${value.toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,

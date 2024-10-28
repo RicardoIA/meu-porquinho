@@ -10,7 +10,7 @@ const iconHandKey = Image.resolveAssetSource(
 );
 
 export interface VaultProps {
-  pixKey: string;
+  pixKey?: string | null | undefined;
   btnEditOnPress: (e: GestureResponderEvent) => void;
 }
 
@@ -21,7 +21,9 @@ export default function PixContainer(props: VaultProps) {
         <SvgUri uri={iconHandKey.uri} height={40} />
         <View>
           <Text style={style.title}>Pix pra saque</Text>
-          <Text style={style.value}>{props.pixKey}</Text>
+          <Text style={style.value}>
+            {props.pixKey ?? "00.000.000/0000-00"}
+          </Text>
         </View>
         <Button
           mode="contained"

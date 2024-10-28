@@ -27,12 +27,12 @@ const iconGetOut = Image.resolveAssetSource(
 export default function AdminHome() {
   const navigation = useNavigation<StackNavigation>();
   const { navigate } = useNavigation<StackNavigation>();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
 
   const data = {
     valueSafe: 4000,
     totalTips: 100,
-    userName: "@Admin",
+    userName: user?.username,
     pixKey: "77.924.749/0001-50",
   };
   function onPressLogout() {

@@ -22,7 +22,7 @@ export default function Home() {
   const { login, user, isAdmin } = useAuth();
 
   const [username, setUsername] = React.useState("ricardo");
-  const [password, setPassword] = React.useState("admin1");
+  const [password, setPassword] = React.useState("admin");
   const [loginInvalid, setLoginInvalid] = React.useState<boolean | null>(null);
   const [loginLoading, setLoginLoading] = React.useState<boolean>(false);
 
