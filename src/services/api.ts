@@ -41,13 +41,24 @@ const configAuth = async () => {
 };
 
 class AuthService {
-  async register(data: IUserRegistration) {
-    return await service.post("/api/auth/register", data, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    });
+  async register(data: IUserRegistration): Promise<AxiosResponse<any>> {
+    let response: AxiosResponse<any> = {} as AxiosResponse<any>;
+
+    await service
+      .post("/api/auth/register", data, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      })
+      .then((resp) => {
+        response = resp;
+      })
+      .catch(function (error) {
+        response = error.response;
+      });
+
+    return response;
   }
 
   async login(data: IUserLogin): Promise<AxiosResponse<any>> {

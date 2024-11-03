@@ -14,7 +14,7 @@ const iconPlusCircle = Image.resolveAssetSource(
 
 export interface NewVaultProps {
   value: number;
-  withdrawDate: string;
+  withdrawDate: Date;
 }
 
 export default function NewVault(props: NewVaultProps) {
@@ -48,7 +48,9 @@ export default function NewVault(props: NewVaultProps) {
             <View style={style.contentInfo}>
               <Text style={style.contentLabel}>Data para saque</Text>
               <View style={style.contentValueContainer}>
-                <Text style={style.contentValueBlue}>{props.withdrawDate}</Text>
+                <Text style={style.contentValueBlue}>
+                  {props.withdrawDate?.toLocaleDateString()}
+                </Text>
               </View>
             </View>
             <View style={style.contentInfo}>

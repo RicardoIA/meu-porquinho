@@ -180,7 +180,7 @@ export default function Home() {
 
         <View style={theme.style.bodyContainer}>
           <View style={style.bodyContainer}>
-            <Vault
+            {/* <Vault
               title="Cofre 1"
               valueSafe={data.valueSafe}
               withdrawDate={new Date()}
@@ -195,7 +195,7 @@ export default function Home() {
               btnWithout={true}
               btnWithoutDisable={true}
               btnWithoutOnPress={() => console.log("without cofre 2")}
-            />
+            /> */}
 
             {vaults && (
               <FlatList
@@ -203,9 +203,9 @@ export default function Home() {
                 data={vaults}
                 renderItem={({ item }) => (
                   <Vault
-                    title={`Cofre ${vaults.indexOf(item)}`}
+                    title={`Cofre ${vaults.indexOf(item) + 1}`}
                     valueSafe={item.depositAmount}
-                    withdrawDate={item.withdrawDate}
+                    withdrawDate={new Date(item.withdrawDate)}
                     btnWithout={true}
                     btnWithoutOnPress={() => console.log("without cofre 2")}
                   />
@@ -216,7 +216,9 @@ export default function Home() {
 
             <NewVault
               value={data.newVaultValue}
-              withdrawDate={data.newVaultDate}
+              withdrawDate={
+                new Date(new Date().setDate(new Date().getDate() + 1))
+              }
             />
             <PixContainer
               pixKey={wallet?.pixKey}

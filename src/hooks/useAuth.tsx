@@ -152,9 +152,10 @@ const useProvideAuth = () => {
 
       const resp = await authService.register(data);
 
-      if (resp.status !== 200) {
+      if (resp.status !== 201) {
         throw new Error(
           JSON.stringify({
+            mesage: "Falha ao registrar usuário",
             data: resp.data,
             status: resp.status,
           })
@@ -191,7 +192,7 @@ const useProvideAuth = () => {
       log.write("Register (success)");
       return true;
     } catch (error) {
-      log.write("Register (failed)", error);
+      log.write("Register (failed)", JSON.stringify(error));
       setError(error);
       return false;
     } finally {

@@ -22,21 +22,23 @@ export default function Home() {
   const navigation = useNavigation<StackNavigation>();
   const { register, user, isAdmin } = useAuth();
 
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [birthDate, setBirthDate] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmed, setPasswordConfirmed] = useState("");
+  const [fullname, setFullname] = useState("teste");
+  const [email, setEmail] = useState("teste@admin.com");
+  const [phone, setPhone] = useState("199999999");
+  const [cpf, setCpf] = useState("69930875026");
+  const [password, setPassword] = useState("admin");
+  const [passwordConfirmed, setPasswordConfirmed] = useState("admin");
 
   const [fullnameValid, setFullnameValid] = useState<string | boolean>(true);
   const [emailValid, setEmailValid] = useState<string | boolean>(true);
   const [phoneValid, setPhoneValid] = useState<string | boolean>(true);
-  const [birthDateValid, setBirthDateValid] = useState<string | boolean>(true);
+  const [cpfValid, setCpfValid] = useState<string | boolean>(true);
   const [passwordValid, setPasswordValid] = useState<string | boolean>(true);
   const [passwordConfirmedValid, setPasswordConfirmedValid] = useState<
     string | boolean
   >(true);
+
+  const [loginLoading, setLoginLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (user) {
@@ -61,8 +63,9 @@ export default function Home() {
   function handleRegister() {
     if (checkFields()) {
       try {
+        setLoginLoading(true);
         const userData: IUserRegistration = {
-          cpf: "",
+          cpf,
           email,
           password,
           phone,
@@ -72,30 +75,43 @@ export default function Home() {
         register(userData)
           .then((success) => {
             if (success) {
+              setLoginLoading(false);
             } else {
               throw new Error("failed Login");
             }
           })
-          .catch((e) => {});
-      } catch (error) {}
+          .catch((e) => {
+            setLoginLoading(false);
+          });
+      } catch (error) {
+        setLoginLoading(false);
+      }
     }
   }
 
   function checkFields(): boolean {
+    setFullnameValid(true);
+    setEmailValid(true);
+    setCpfValid(true);
+    setPhoneValid(true);
+    setPasswordValid(true);
+    setPasswordConfirmedValid(true);
+
     if (Utils.isEmpty(fullname)) {
       setFullnameValid("Nome completo inválido");
     }
     checkEmail("E-mail inválido");
 
-    if (Utils.isEmpty(birthDate)) {
-      setPhoneValid("Data de nascimento inválida");
-    }
     if (Utils.isEmpty(phone)) {
-      setBirthDateValid("Telefone inválido");
+      setCpfValid("Telefone inválido");
+    }
+
+    if (Utils.isEmpty(cpf)) {
+      setPhoneValid("CPF inválido");
     }
 
     if (Utils.isEmpty(password) || password.length < 3) {
-      setPasswordConfirmedValid("Senha inválida");
+      setPasswordValid("Senha inválida");
     }
 
     if (Utils.isEmpty(passwordConfirmed) || password !== passwordConfirmed) {
@@ -103,12 +119,12 @@ export default function Home() {
     }
 
     if (
-      fullnameValid &&
-      emailValid &&
-      birthDateValid &&
-      phoneValid &&
-      password &&
-      passwordConfirmedValid
+      fullnameValid === true &&
+      emailValid === true &&
+      cpfValid === true &&
+      phoneValid === true &&
+      passwordValid === true &&
+      passwordConfirmedValid === true
     ) {
       return true;
     }
@@ -123,7 +139,7 @@ export default function Home() {
   function checkEmail(msgError: string | boolean) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!email || email.length < 4 || emailRegex.test(email)) {
+    if (!email || email.length < 4 || !emailRegex.test(email)) {
       setEmailValid(msgError);
       return;
     }
@@ -194,17 +210,17 @@ export default function Home() {
                 }}
               />
               <InputField
-                labelField="Data de Nascimento"
-                placeholder="DD/MM/AAAA"
-                value={birthDate}
-                valid={birthDateValid}
+                labelField="CPF"
+                placeholder="999.999.999-99"
+                value={cpf}
+                valid={cpfValid}
                 onChangeText={(value: string) => {
                   if (Utils.isEmpty(value)) {
-                    setBirthDateValid(false);
+                    setCpfValid(false);
                   } else {
-                    setBirthDateValid(true);
+                    setCpfValid(true);
                   }
-                  setBirthDate(value);
+                  setCpf(value);
                 }}
               />
 
@@ -268,6 +284,8 @@ export default function Home() {
               labelStyle={theme.style.firstButtonLabel}
               contentStyle={theme.style.firstButtonContainer}
               onPress={handleRegister}
+              loading={loginLoading}
+              disabled={loginLoading}
             >
               Cadastro
             </Button>
