@@ -22,7 +22,7 @@ type UserDepositRouteProp = RouteProp<RootStackParamList, "UserDeposit">;
 
 export default function UserDeposit() {
   const route = useRoute<UserDepositRouteProp>();
-  const { title, value, withdrawDate } = route.params;
+  const { value } = route.params;
 
   function onClickDeposit() {
     console.log("Deposit: ", value);

@@ -20,11 +20,14 @@ export interface NewVaultProps {
 export default function NewVault(props: NewVaultProps) {
   const { navigate } = useNavigation<StackNavigation>();
 
+  const data = {
+    ...props,
+    dateWithdraw: Utils.DateTomorrow(),
+  };
+
   function goToDeposit() {
     navigate("UserDeposit", {
-      title: "Novo C",
-      value: 12,
-      withdrawDate: new Date(),
+      value: props.value,
     });
   }
 
@@ -45,14 +48,14 @@ export default function NewVault(props: NewVaultProps) {
               <Text style={style.contentLabel}>Data para saque</Text>
               <View style={style.contentValueContainer}>
                 <Text style={style.contentValueBlue}>
-                  {Utils.DateTomorrow().toLocaleDateString()}
+                  {data.dateWithdraw.toLocaleDateString()}
                 </Text>
               </View>
             </View>
             <View style={style.contentInfo}>
               <Text style={style.contentLabel}>Valor</Text>
               <View style={style.contentValueContainer}>
-                <Text style={style.contentValueBlack}>R${props.value}</Text>
+                <Text style={style.contentValueBlack}>R${data.value}</Text>
               </View>
             </View>
           </View>

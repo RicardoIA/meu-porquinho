@@ -129,9 +129,7 @@ export interface IAuthContextType {
 }
 
 export interface IUserDepositProps {
-  title: string;
   value: number;
-  withdrawDate: Date;
 }
 
 export interface IUserWithdrawProps {
