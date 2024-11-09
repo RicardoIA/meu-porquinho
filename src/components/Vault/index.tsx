@@ -1,13 +1,10 @@
-import { useNavigation } from "@react-navigation/native";
 import * as React from "react";
 import { GestureResponderEvent, Image, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { SvgUri } from "react-native-svg";
-import { StackNavigation } from "../../routes";
+import Utils from "../../utils";
 import * as theme from "./../../themes";
 import style from "./style";
-import UserWithdraw from "../../pages/user/Withdraw";
-import Utils from "../../utils";
 
 const iconMoney = Image.resolveAssetSource(require("./../../assets/money.svg"));
 const iconMoneyWhite = Image.resolveAssetSource(
@@ -32,15 +29,9 @@ export interface VaultProps {
 }
 
 export default function Vault(props: VaultProps) {
-  const { navigate } = useNavigation<StackNavigation>();
-
   var withdrawDisable = true;
   if (props.withdrawDate) {
     withdrawDisable = props.withdrawDate >= new Date();
-  }
-
-  function goToLogin() {
-    navigate("UserWithdraw");
   }
 
   return (
@@ -115,7 +106,7 @@ export default function Vault(props: VaultProps) {
           labelStyle={theme.style.secondButtonLabel}
           contentStyle={theme.style.secondButtonContainer}
           disabled={withdrawDisable}
-          onPress={goToLogin}
+          onPress={props.btnWithoutOnPress}
         >
           SACAR
         </Button>

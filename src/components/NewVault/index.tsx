@@ -7,6 +7,7 @@ import { Button, IconButton } from "react-native-paper";
 import colors from "../../themes/colors";
 import { StackNavigation } from "../../routes";
 import { useNavigation } from "@react-navigation/native";
+import Utils from "../../utils";
 
 const iconPlusCircle = Image.resolveAssetSource(
   require("./../../assets/plus-circle.svg")
@@ -14,22 +15,17 @@ const iconPlusCircle = Image.resolveAssetSource(
 
 export interface NewVaultProps {
   value: number;
-  withdrawDate: Date;
 }
 
 export default function NewVault(props: NewVaultProps) {
   const { navigate } = useNavigation<StackNavigation>();
 
   function goToDeposit() {
-    // const userWithdrawProps: UserWithdrawProps = {
-    //   name: props.title,
-    //   valueSafe: props.valueSafe,
-    //   withdrawDate: props.withdrawDate,
-    // };
-
-    // console.log(userWithdrawProps);
-
-    navigate("UserDeposit");
+    navigate("UserDeposit", {
+      title: "Novo C",
+      value: 12,
+      withdrawDate: new Date(),
+    });
   }
 
   return (
@@ -49,7 +45,7 @@ export default function NewVault(props: NewVaultProps) {
               <Text style={style.contentLabel}>Data para saque</Text>
               <View style={style.contentValueContainer}>
                 <Text style={style.contentValueBlue}>
-                  {props.withdrawDate?.toLocaleDateString()}
+                  {Utils.DateTomorrow().toLocaleDateString()}
                 </Text>
               </View>
             </View>

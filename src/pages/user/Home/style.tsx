@@ -60,8 +60,12 @@ export default StyleSheet.create({
     backgroundColor: colors.ultraLightGreen,
   },
   bodyContainer: {
-    paddingVertical: 18,
-    gap: 18,
+    paddingVertical: 16,
+    gap: 14,
+    width: "100%",
+  },
+  bodyVaults: {
+    gap: 14,
     width: "100%",
   },
 });

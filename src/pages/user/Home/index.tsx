@@ -1,6 +1,6 @@
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -20,7 +20,11 @@ import { useFetch } from "../../../hooks/useFetch";
 import { StackNavigation } from "../../../routes";
 import { vaultService, walletService } from "../../../services/api";
 import Utils from "../../../utils";
-import { IModelVault, IModelWallet } from "../../../utils/interfaces";
+import {
+  IModelVault,
+  IModelWallet,
+  IUserWithdrawProps,
+} from "../../../utils/interfaces";
 import * as theme from "./../../../themes";
 import style from "./style";
 import { log } from "../../../utils/log";
@@ -42,6 +46,13 @@ export default function Home() {
   const getWallet = useFetch(walletService.get);
   const getVaults = useFetch(vaultService.getAll);
 
+  const [wallet, setWallet] = useState<IModelWallet | null>(null);
+  const [vaults, setVaults] = useState<IModelVault[]>([]);
+  const [withdrawalAvailable, setWithdrawalAvailable] = useState<number | null>(
+    null
+  );
+  const [totalSaved, setTotalSaved] = useState<number | null>(null);
+
   useEffect(() => {
     try {
       if (getWallet.success && getWallet.response) {
@@ -55,22 +66,17 @@ export default function Home() {
   useEffect(() => {
     try {
       if (getVaults.success && getVaults.response) {
-        console.log(getVaults.response.vaults);
-        setVaults(getVaults.response.vaults);
+        const listVault = getVaults.response.vaults;
+        setVaults(listVault);
+
+        // calc withdrawal available
+        calcTotalSaved(listVault);
+        calcWithdrawalAvailable(listVault);
       }
     } catch (error) {
       log.write("getVaults (failed)", error);
     }
   }, [getVaults.success, getVaults.response]);
-
-  const [wallet, setWallet] = React.useState<IModelWallet | null>(null);
-  const [vaults, setVaults] = React.useState<IModelVault[]>([]);
-
-  var data = {
-    valueSafe: 0,
-    newVaultValue: 4000,
-    newVaultDate: "25 Set. 2024",
-  };
 
   function onPressLogout() {
     logout().then(() => {
@@ -85,38 +91,36 @@ export default function Home() {
     });
   }
 
-  function onPressWithdraw() {
-    console.log("Withdraw:", data.valueSafe);
+  function onPressWithdraw(vault: IModelVault) {
+    console.log("Withdraw:", vault.depositAmount);
+
+    const userWithdrawProps: IUserWithdrawProps = {
+      title: "Cofre " + vault.vaultId,
+      valueSafe: vault.depositAmount,
+      withdrawDate: vault.withdrawDate,
+    };
+    navigation.navigate("UserWithdraw", userWithdrawProps);
   }
 
   function onPressEditPix() {
     console.log("Pix:", wallet?.pixKey);
   }
 
-  // const getWallet = async () => {
-  //   try {
-  //     const resp = await walletService.get();
+  const calcWithdrawalAvailable = (listVault: IModelVault[]) => {
+    const value = listVault.reduce((acc, item) => {
+      if (new Date(item.withdrawDate) <= new Date()) {
+        return acc + +item.depositAmount;
+      }
 
-  //     if (resp.status !== 200) {
-  //       throw new Error(
-  //         JSON.stringify({
-  //           data: resp.data,
-  //           status: resp.status,
-  //         })
-  //       );
-  //     }
+      return acc;
+    }, 0);
+    setWithdrawalAvailable(value);
+  };
 
-  //     const wallet: IModelWallet | null = resp.data;
-
-  //     if (wallet) {
-  //       setWallet(wallet);
-  //     } else {
-  //       throw new Error("Wallet not found.");
-  //     }
-  //   } catch (error) {
-  //     log.write("Get Wallet (failed)", error);
-  //   }
-  // };
+  const calcTotalSaved = (listVault: IModelVault[]) => {
+    const value = listVault.reduce((acc, item) => acc + +item.depositAmount, 0);
+    setTotalSaved(value);
+  };
 
   return (
     <TouchableWithoutFeedback
@@ -158,7 +162,7 @@ export default function Home() {
                 <Text style={style.resumeAccountTitle}>Total Guardado</Text>
               </View>
               <Text style={style.resumeAccountValueWhite}>
-                {Utils.formatMonetaryNumber(wallet?.balance)}
+                {Utils.formatMonetaryNumber(totalSaved)}
               </Text>
             </View>
             <View style={style.verticalLine} />
@@ -172,7 +176,7 @@ export default function Home() {
                 <Text style={style.resumeAccountTitle}>Saque Disponível</Text>
               </View>
               <Text style={style.resumeAccountValueBlue}>
-                {Utils.formatMonetaryNumber(wallet?.bonusBalance)}
+                {Utils.formatMonetaryNumber(withdrawalAvailable)}
               </Text>
             </View>
           </View>
@@ -180,46 +184,25 @@ export default function Home() {
 
         <View style={theme.style.bodyContainer}>
           <View style={style.bodyContainer}>
-            {/* <Vault
-              title="Cofre 1"
-              valueSafe={data.valueSafe}
-              withdrawDate={new Date()}
-              btnWithout={true}
-              btnWithoutOnPress={onPressWithdraw}
-            />
-
-            <Vault
-              title="Cofre 2"
-              valueSafe={data.valueSafe}
-              withdrawDate={new Date()}
-              btnWithout={true}
-              btnWithoutDisable={true}
-              btnWithoutOnPress={() => console.log("without cofre 2")}
-            /> */}
-
             {vaults && (
               <FlatList
+                contentContainerStyle={style.bodyVaults}
                 scrollEnabled={false}
                 data={vaults}
                 renderItem={({ item }) => (
                   <Vault
-                    title={`Cofre ${vaults.indexOf(item) + 1}`}
+                    title={`Cofre ${item.vaultId}`}
                     valueSafe={item.depositAmount}
                     withdrawDate={new Date(item.withdrawDate)}
                     btnWithout={true}
-                    btnWithoutOnPress={() => console.log("without cofre 2")}
+                    btnWithoutOnPress={() => onPressWithdraw(item)}
                   />
                 )}
                 keyExtractor={(item) => item?.vaultId.toString()}
               />
             )}
 
-            <NewVault
-              value={data.newVaultValue}
-              withdrawDate={
-                new Date(new Date().setDate(new Date().getDate() + 1))
-              }
-            />
+            <NewVault value={100} />
             <PixContainer
               pixKey={wallet?.pixKey}
               btnEditOnPress={onPressEditPix}

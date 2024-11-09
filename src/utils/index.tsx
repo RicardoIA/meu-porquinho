@@ -16,4 +16,11 @@ export default class Utils {
   static isNotEmpty(prop: string) {
     return !Utils.isEmpty(prop);
   }
+
+  static DateTomorrow() {
+    var date = new Date();
+
+    date.setDate(date.getDate() + 1);
+    return date;
+  }
 }

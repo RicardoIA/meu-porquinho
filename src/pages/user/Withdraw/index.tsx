@@ -1,3 +1,4 @@
+import { RouteProp, useRoute } from "@react-navigation/native";
 import * as React from "react";
 import {
   Image,
@@ -8,17 +9,18 @@ import {
   View,
 } from "react-native";
 import { Button } from "react-native-paper";
-
 import Vault from "../../../components/Vault";
+import { RootStackParamList } from "../../../routes";
 import * as theme from "./../../../themes";
 import style from "./style";
 
 const image = require("./../../../assets/mobile-phone-payment.png");
 
+type UserWithdrawRouteProp = RouteProp<RootStackParamList, "UserWithdraw">;
+
 export default function UserWithdraw() {
-  const [title, setTitle] = React.useState("Cofre 1");
-  const [valueSafe, setValueSafe] = React.useState(0);
-  const [withdrawDate, setWithdrawDate] = React.useState("15/10/2021");
+  const route = useRoute<UserWithdrawRouteProp>();
+  const { valueSafe, title, withdrawDate } = route.params;
 
   function onClickWithdraw() {
     console.log("Withdraw: ", valueSafe);
@@ -40,7 +42,7 @@ export default function UserWithdraw() {
           <Vault
             title={title}
             valueSafe={valueSafe}
-            withdrawDate={withdrawDate}
+            withdrawDate={new Date(withdrawDate)}
           />
 
           <View style={style.actionContainer}>

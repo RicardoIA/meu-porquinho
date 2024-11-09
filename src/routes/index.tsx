@@ -15,6 +15,7 @@ import NewPassword from "./../pages/settings/NewPassword";
 import RecoverPassword from "./../pages/settings/RecoverPassword";
 import Register from "./../pages/settings/Register";
 import { useAuth } from "../hooks/useAuth";
+import { IUserDepositProps, IUserWithdrawProps } from "../utils/interfaces";
 
 const Stack = createNativeStackNavigator();
 
@@ -22,13 +23,13 @@ export default function Routes() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen
-        name="Login"
-        component={Login}
+        name="Welcome"
+        component={Welcome}
         options={{ gestureEnabled: false }}
       />
       <Stack.Screen
-        name="Welcome"
-        component={Welcome}
+        name="Login"
+        component={Login}
         options={{ gestureEnabled: false }}
       />
       <Stack.Screen
@@ -52,19 +53,32 @@ export default function Routes() {
 }
 
 export type ScreenNames = [
-  "Welcome",
-  "Login",
-  "Tip",
-  "AdminHome",
-  "AdminWithdraw",
-  "UserHome",
-  "UserDeposit",
-  "UserWithdraw",
-  "NewPassword",
-  "RecoverPassword",
-  "Register",
-  "Components"
+  | "Welcome"
+  | "Login"
+  | "Tip"
+  | "AdminHome"
+  | "AdminWithdraw"
+  | "UserHome"
+  | "UserDeposit"
+  | "UserWithdraw"
+  | "NewPassword"
+  | "RecoverPassword"
+  | "Register"
+  | "Components"
 ]; // type these manually
 
-export type RootStackParamList = Record<ScreenNames[number], any>;
+export type RootStackParamList = {
+  Welcome: undefined;
+  Login: undefined;
+  Tip: undefined;
+  AdminHome: undefined;
+  AdminWithdraw: undefined;
+  UserHome: undefined;
+  UserDeposit: IUserDepositProps;
+  UserWithdraw: IUserWithdrawProps;
+  NewPassword: undefined;
+  RecoverPassword: undefined;
+  Register: undefined;
+  Components: undefined;
+};
 export type StackNavigation = NavigationProp<RootStackParamList>;

@@ -103,6 +103,8 @@ export interface IModelVault {
   depositAmount: number;
   withdrawDate: Date;
   status: VaultStatus;
+  createdAt: Date;
+  updatedAt: Date;
 }
 export interface IModelWallet {
   walletId: number;
@@ -124,4 +126,16 @@ export interface IAuthContextType {
   isAdmin: boolean;
   user: IModelUser | null;
   token: string | null;
+}
+
+export interface IUserDepositProps {
+  title: string;
+  value: number;
+  withdrawDate: Date;
+}
+
+export interface IUserWithdrawProps {
+  title: string;
+  valueSafe: number;
+  withdrawDate: Date;
 }
