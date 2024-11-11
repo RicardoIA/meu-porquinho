@@ -1,22 +1,22 @@
 import * as React from "react";
-import { KeyboardTypeOptions, Platform, Text, View } from "react-native";
+import { Platform, Text, View } from "react-native";
 import { TextInput } from "react-native-paper";
 import { colors } from "../../themes";
 import style from "./style";
 import Utils from "../../utils";
 import { LegacyRef } from "react";
+import { DatePickerInput } from "react-native-paper-dates";
 
 export interface InputFieldProps {
-  placeholder: string | undefined;
+  placeholder?: string | undefined;
   labelField: string;
-  value: string;
+  value: Date | undefined;
   valid?: boolean | string;
-  keybordType?: KeyboardTypeOptions | undefined;
   autoFocus?: boolean | undefined;
-  onChangeText?: (value: string) => void;
+  onChange: (date: Date | undefined) => void;
 }
 
-export default function InputField(props: InputFieldProps) {
+export default function InputDate(props: InputFieldProps) {
   function isInvalid() {
     return props.valid === false || typeof props.valid === "string";
   }
@@ -25,7 +25,7 @@ export default function InputField(props: InputFieldProps) {
     <View style={style.container}>
       {props.labelField && <Text style={style.label}>{props.labelField}</Text>}
 
-      <TextInput
+      {/* <TextInput
         autoFocus={props.autoFocus}
         mode="outlined"
         autoCapitalize="none"
@@ -40,10 +40,28 @@ export default function InputField(props: InputFieldProps) {
         placeholderTextColor={colors.gray}
         placeholder={props.placeholder}
         focusable={true}
-        keyboardType={props.keybordType}
         outlineColor={colors.lightGreen}
+        // value={props.value}
+        // onChangeText={props.onChangeText}
+      /> */}
+
+      <DatePickerInput
+        style={[
+          style.textInput,
+          isInvalid() ? style.errorStyle : style.defaultStyle,
+        ]}
+        outlineStyle={[
+          style.outlineStyle,
+          isInvalid() ? style.outlineErrorStyle : null,
+        ]}
+        label=""
+        hasError={isInvalid()}
+        locale="pt"
         value={props.value}
-        onChangeText={props.onChangeText}
+        onChange={props.onChange}
+        outlineColor={colors.lightGreen}
+        inputMode="start"
+        mode="outlined"
       />
       {isInvalid() && (
         <Text style={style.alert}>

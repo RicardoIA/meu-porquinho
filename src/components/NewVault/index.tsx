@@ -26,9 +26,7 @@ export default function NewVault(props: NewVaultProps) {
   };
 
   function goToDeposit() {
-    navigate("UserDeposit", {
-      value: props.value,
-    });
+    navigate("EditField");
   }
 
   return (

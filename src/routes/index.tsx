@@ -16,6 +16,7 @@ import RecoverPassword from "./../pages/settings/RecoverPassword";
 import Register from "./../pages/settings/Register";
 import { useAuth } from "../hooks/useAuth";
 import { IUserDepositProps, IUserWithdrawProps } from "../utils/interfaces";
+import EditField from "../pages/main/EditNewValut";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +39,7 @@ export default function Routes() {
         options={{ gestureEnabled: false }}
       />
 
+      <Stack.Screen name="EditField" component={EditField} />
       <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
       <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="Tip" component={Tip} />
@@ -65,6 +67,7 @@ export type ScreenNames = [
   | "RecoverPassword"
   | "Register"
   | "Components"
+  | "EditField"
 ]; // type these manually
 
 export type RootStackParamList = {
@@ -80,5 +83,6 @@ export type RootStackParamList = {
   RecoverPassword: undefined;
   Register: undefined;
   Components: undefined;
+  EditField: undefined;
 };
 export type StackNavigation = NavigationProp<RootStackParamList>;

@@ -22,7 +22,7 @@ type UserDepositRouteProp = RouteProp<RootStackParamList, "UserDeposit">;
 
 export default function UserDeposit() {
   const route = useRoute<UserDepositRouteProp>();
-  const { value } = route.params;
+  const { value, withdrawDate } = route.params;
 
   function onClickDeposit() {
     console.log("Deposit: ", value);
@@ -44,7 +44,7 @@ export default function UserDeposit() {
           <Vault
             title="Novo Cofre"
             valueSafe={value}
-            withdrawDate={Utils.DateTomorrow()}
+            withdrawDate={new Date(withdrawDate ?? "")}
           />
 
           <View style={style.actionContainer}>

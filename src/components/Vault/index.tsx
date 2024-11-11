@@ -71,7 +71,7 @@ export default function Vault(props: VaultProps) {
                 <View style={style.groupContentInfo}>
                   <Text style={style.titleGroupContent}>Data para saque</Text>
                   <Text style={style.labelContentBlue}>
-                    {props.withdrawDate?.toLocaleDateString()}
+                    {props.withdrawDate?.toLocaleDateString("pt")}
                   </Text>
                 </View>
               </View>
