@@ -12,9 +12,9 @@ import style from "./style";
 const EditNewValut: React.FC = () => {
   const navigation = useNavigation<StackNavigation>();
 
-  const [withdrawalAmount, setWithdrawalAmount] = useState<string>("");
+  const [withdrawalAmount, setWithdrawalAmount] = useState<string>("100");
   const [dateValue, setDateValue] = useState<Date | undefined>(
-    Utils.DateTomorrow()
+    Utils.DateValidToWithdrawNewVault()
   );
   const [dateValid, setDateValid] = useState<boolean>(true);
   const [withdrawalAmountValid, setWithdrawalAmountValid] =
@@ -26,7 +26,8 @@ const EditNewValut: React.FC = () => {
 
   const validateDate = () => {
     var valid =
-      dateValue && dateValue.getUTCDate() >= Utils.DateTomorrow().getUTCDate()
+      dateValue &&
+      dateValue.getUTCDate() >= Utils.DateValidToWithdrawNewVault().getUTCDate()
         ? true
         : false;
 

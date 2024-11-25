@@ -1,4 +1,11 @@
+import {
+  CommonActions,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import * as React from "react";
+import { useEffect, useState } from "react";
 import {
   Image,
   Keyboard,
@@ -7,26 +14,83 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { Button } from "react-native-paper";
-
+import { Button, Dialog, Portal } from "react-native-paper";
 import Vault from "../../../components/Vault";
+import { useFetch } from "../../../hooks/useFetch";
+import { RootStackParamList, StackNavigation } from "../../../routes";
+import { vaultService, walletService } from "../../../services/api";
+import { log } from "../../../utils/log";
 import * as theme from "./../../../themes";
+import { IModelWallet } from "./../../../utils/interfaces";
 import style from "./style";
-import Utils from "../../../utils";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { RootStackParamList } from "../../../routes";
+import DialogConfirm from "../../../components/DialogConfirm";
 
 const image = require("./../../../assets/mobile-phone-payment.png");
 
 type UserDepositRouteProp = RouteProp<RootStackParamList, "UserDeposit">;
 
 export default function UserDeposit() {
+  const navigation = useNavigation<StackNavigation>();
   const route = useRoute<UserDepositRouteProp>();
   const { value, withdrawDate } = route.params;
 
-  function onClickDeposit() {
-    console.log("Deposit: ", value);
-  }
+  const vaultCreate = useFetch();
+
+  const getWallet = useFetch(walletService.get, null, true);
+
+  const [wallet, setWallet] = useState<IModelWallet | null>(null);
+
+  useEffect(() => {
+    try {
+      if (getWallet.success && getWallet.response) {
+        setWallet(getWallet.response);
+        log.write("wallet/get (success)", "OK");
+      }
+    } catch (error) {
+      log.write("wallet/get (failed)", error);
+    }
+  }, [getWallet.success, getWallet.response]);
+
+  useEffect(() => {
+    try {
+      if (vaultCreate.success && vaultCreate.response) {
+        log.write("vault/create (success)", "OK");
+        showDialogSuccess();
+      }
+      if (vaultCreate.error) {
+        throw new Error(vaultCreate.error);
+      }
+    } catch (error) {
+      showDialogFailed();
+      log.write("vault/create (failed)", error);
+    }
+  }, [vaultCreate.success, vaultCreate.response]);
+
+  const onClickDeposit = async () => {
+    await vaultCreate.run(vaultService.create, {
+      walletId: wallet?.walletId,
+      depositAmount: value,
+      withdrawDate: withdrawDate,
+    });
+  };
+
+  const [visibleDialogSuccess, setVisibleDialogSuccess] = React.useState(false);
+  const showDialogSuccess = () => setVisibleDialogSuccess(true);
+  const hideDialogSuccess = () => setVisibleDialogSuccess(false);
+
+  const [visibleDialogFailed, setVisibleDialogFailed] = React.useState(false);
+  const showDialogFailed = () => setVisibleDialogFailed(true);
+  const hideDialogFailed = () => setVisibleDialogFailed(false);
+
+  const goToHome = () => {
+    hideDialogSuccess();
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "UserHome" }],
+      })
+    );
+  };
 
   return (
     <TouchableWithoutFeedback
@@ -34,6 +98,21 @@ export default function UserDeposit() {
       onPress={() => Keyboard.dismiss()}
     >
       <ScrollView contentContainerStyle={[theme.style.bodyViewContainer]}>
+        <DialogConfirm
+          title="Deposito realizado com sucesso"
+          content="Pressione ok para voltar a tela inicial"
+          visible={visibleDialogSuccess}
+          onPressOk={goToHome}
+        />
+        <DialogConfirm
+          title="Falha ao realizar deposito"
+          content="Pressione ok para voltar a tela inicial"
+          error={vaultCreate.error}
+          visible={visibleDialogFailed}
+          onPressOk={goToHome}
+          onPressCancel={hideDialogFailed}
+        />
+
         <View style={theme.style.header}>
           <Text style={theme.style.headerTitle}>Depositar:</Text>
           <Text style={theme.style.headerTitle}>Novo Cofre</Text>

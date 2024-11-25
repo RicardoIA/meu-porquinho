@@ -1,22 +1,21 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationProp } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ComponentsTest from "../pages/main/ComponentsTest";
 
-import Tip from "./../pages/main/Tip";
+import EditField from "../pages/main/EditNewValut";
 import Welcome from "../pages/main/Welcome";
+import { IUserDepositProps, IUserWithdrawProps } from "../utils/interfaces";
 import AdminHome from "./../pages/admin/Home";
 import AdminWithdraw from "./../pages/admin/Withdraw";
-import UserHome from "./../pages/user/Home";
-import UserDeposit from "./../pages/user/Deposit";
-import UserWithdraw from "./../pages/user/Withdraw";
+import Tip from "./../pages/main/Tip";
 import Login from "./../pages/settings/Login";
 import NewPassword from "./../pages/settings/NewPassword";
 import RecoverPassword from "./../pages/settings/RecoverPassword";
 import Register from "./../pages/settings/Register";
-import { useAuth } from "../hooks/useAuth";
-import { IUserDepositProps, IUserWithdrawProps } from "../utils/interfaces";
-import EditField from "../pages/main/EditNewValut";
+import UserDeposit from "./../pages/user/Deposit";
+import UserHome from "./../pages/user/Home";
+import UserWithdraw from "./../pages/user/Withdraw";
 
 const Stack = createNativeStackNavigator();
 

@@ -102,7 +102,18 @@ class WalletService {
   }
 
   async add(data: IAddBalanceWallet) {
-    return await service.post("/api/wallet/add", data, await configAuth());
+    let response: AxiosResponse<any> = {} as AxiosResponse<any>;
+
+    await service
+      .post("/api/wallet/add", data, await configAuth())
+      .then((resp) => {
+        response = resp;
+      })
+      .catch(function (error) {
+        response = error.response;
+      });
+
+    return response;
   }
 
   async setPixKey(data: ISetPixKey) {
@@ -182,7 +193,18 @@ class TransactionService {
 
 class VaultService {
   async create(data: ICreateVault) {
-    return await service.post("/api/vaults/create", data, await configAuth());
+    let response: AxiosResponse<any> = {} as AxiosResponse<any>;
+
+    await service
+      .post("/api/vaults/create", data, await configAuth())
+      .then((resp) => {
+        response = resp;
+      })
+      .catch(function (error) {
+        response = error.response;
+      });
+
+    return response;
   }
   async getAll(data: IGetVaults) {
     return await service.get("/api/vaults", {

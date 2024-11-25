@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { HttpMethod } from "../utils/enums";
 import { Alert } from "react-native";
+import { log } from "../utils/log";
 
 type AsyncFunction = (data?: any) => Promise<void>;
 
@@ -48,39 +49,53 @@ export const useFetch2 = (
   return { data, loading, error };
 };
 
-export const useFetch = (func: Function, data: any = null) => {
+export const useFetch = (
+  func: Function = () => Promise.resolve(),
+  data: any = null,
+  autoFetch: boolean = false
+) => {
   const [response, setResponse] = useState<any>(null);
   const [httpResponse, setHttpResponse] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   const [success, setSuccess] = useState<boolean>(false);
 
-  useEffect(() => {
+  const request = async (requestFunc: Function, body: any = null) => {
     setLoading(true);
-    const fetchData = async () => {
-      try {
-        var result: any = {};
-        if (data) {
-          result = await func(data);
-        } else {
-          result = await func();
-        }
+    try {
+      setHttpResponse(null);
+      setResponse(null);
+      setSuccess(false);
+      setError(null);
 
-        setHttpResponse(result);
+      var result = body ? await requestFunc(body) : await requestFunc();
 
-        const isSuccess = result.status === 200;
-        setSuccess(isSuccess);
-        setResponse(result?.data);
-      } catch (err) {
-        setError(err);
-        setSuccess(false);
-      } finally {
-        setLoading(false);
+      setHttpResponse(result);
+      setResponse(result?.data);
+
+      const isSuccess = result.status >= 200 && result.status <= 299;
+      setSuccess(isSuccess);
+
+      if (!isSuccess) {
+        throw new Error("Failed Request 1");
       }
-    };
+    } catch (err) {
+      setError(response.error);
+      setSuccess(false);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchData();
-  }, [func]);
+  const run = async (func: Function, data: any) => {
+    await request(func, data);
+  };
 
-  return { response, success, httpResponse, loading, error };
+  useEffect(() => {
+    if (autoFetch && func) {
+      run(func, data);
+    }
+  }, [func, data, autoFetch]);
+
+  return { response, success, httpResponse, loading, error, run };
 };

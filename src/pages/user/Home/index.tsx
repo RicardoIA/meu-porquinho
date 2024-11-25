@@ -43,8 +43,8 @@ export default function Home() {
   const navigation = useNavigation<StackNavigation>();
   const { logout, user } = useAuth();
 
-  const getWallet = useFetch(walletService.get);
-  const getVaults = useFetch(vaultService.getAll);
+  const getWallet = useFetch(walletService.get, null, true);
+  const getVaults = useFetch(vaultService.getAll, null, true);
 
   const [wallet, setWallet] = useState<IModelWallet | null>(null);
   const [vaults, setVaults] = useState<IModelVault[]>([]);
@@ -57,9 +57,10 @@ export default function Home() {
     try {
       if (getWallet.success && getWallet.response) {
         setWallet(getWallet.response);
+        log.write("wallet/get (success)", "OK");
       }
     } catch (error) {
-      log.write("GetWallet (failed)", error);
+      log.write("wallet/get (failed)", error);
     }
   }, [getWallet.success, getWallet.response]);
 

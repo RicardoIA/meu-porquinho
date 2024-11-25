@@ -55,8 +55,8 @@ export interface IGetTransactions {
 
 // Vault
 export interface ICreateVault {
-  walletId: number;
   depositAmount: number;
+  walletId: number;
   withdrawDate: Date;
 }
 export interface IGetVaults {

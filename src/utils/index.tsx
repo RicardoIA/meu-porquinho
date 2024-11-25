@@ -23,4 +23,11 @@ export default class Utils {
     date.setDate(date.getDate() + 1);
     return date;
   }
+
+  static DateValidToWithdrawNewVault() {
+    var date = new Date();
+
+    date.setDate(date.getDate() + 2);
+    return date;
+  }
 }

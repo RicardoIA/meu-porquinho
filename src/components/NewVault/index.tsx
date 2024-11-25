@@ -22,7 +22,7 @@ export default function NewVault(props: NewVaultProps) {
 
   const data = {
     ...props,
-    dateWithdraw: Utils.DateTomorrow(),
+    dateWithdraw: Utils.DateValidToWithdrawNewVault(),
   };
 
   function goToDeposit() {
