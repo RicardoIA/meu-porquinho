@@ -213,7 +213,18 @@ class VaultService {
     });
   }
   async withdraw(data: IWithdrawVault) {
-    return await service.post("/api/vaults/withdraw", data, await configAuth());
+    let response: AxiosResponse<any> = {} as AxiosResponse<any>;
+
+    await service
+      .post("/api/vaults/withdraw", data, await configAuth())
+      .then((resp) => {
+        response = resp;
+      })
+      .catch(function (error) {
+        response = error.response;
+      });
+
+    return response;
   }
 }
 

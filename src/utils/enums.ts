@@ -27,11 +27,6 @@ export enum WithdrawalStatus {
   pending,
 }
 
-export enum VaultStatus {
-  active,
-  closed,
-}
-
 export enum StoredItem {
   userToken,
   user,

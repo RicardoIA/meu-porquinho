@@ -67,12 +67,13 @@ export default function Home() {
   useEffect(() => {
     try {
       if (getVaults.success && getVaults.response) {
-        const listVault = getVaults.response.vaults;
-        setVaults(listVault);
+        const listVault: IModelVault[] = getVaults.response.vaults;
+        const filterdVaults = listVault.filter((x) => x.status === "active");
+        setVaults(filterdVaults);
 
         // calc withdrawal available
-        calcTotalSaved(listVault);
-        calcWithdrawalAvailable(listVault);
+        calcTotalSaved(filterdVaults);
+        calcWithdrawalAvailable(filterdVaults);
       }
     } catch (error) {
       log.write("getVaults (failed)", error);
@@ -93,12 +94,9 @@ export default function Home() {
   }
 
   function onPressWithdraw(vault: IModelVault) {
-    console.log("Withdraw:", vault.depositAmount);
-
     const userWithdrawProps: IUserWithdrawProps = {
       title: "Cofre " + vault.vaultId,
-      valueSafe: vault.depositAmount,
-      withdrawDate: vault.withdrawDate,
+      vault: vault,
     };
     navigation.navigate("UserWithdraw", userWithdrawProps);
   }
@@ -192,6 +190,7 @@ export default function Home() {
                 data={vaults}
                 renderItem={({ item }) => (
                   <Vault
+                    id={item.vaultId}
                     title={`Cofre ${item.vaultId}`}
                     valueSafe={item.depositAmount}
                     withdrawDate={new Date(item.withdrawDate)}

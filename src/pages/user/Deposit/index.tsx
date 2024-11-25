@@ -34,11 +34,10 @@ export default function UserDeposit() {
   const route = useRoute<UserDepositRouteProp>();
   const { value, withdrawDate } = route.params;
 
-  const vaultCreate = useFetch();
-
-  const getWallet = useFetch(walletService.get, null, true);
-
   const [wallet, setWallet] = useState<IModelWallet | null>(null);
+
+  const vaultCreate = useFetch();
+  const getWallet = useFetch(walletService.get, null, true);
 
   useEffect(() => {
     try {
@@ -121,6 +120,7 @@ export default function UserDeposit() {
           <Image style={theme.style.image} source={image} />
 
           <Vault
+            id={1}
             title="Novo Cofre"
             valueSafe={value}
             withdrawDate={new Date(withdrawDate ?? "")}

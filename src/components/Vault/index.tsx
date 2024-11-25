@@ -18,6 +18,7 @@ const iconCalendar = Image.resolveAssetSource(
 );
 
 export interface VaultProps {
+  id: number;
   title: string;
   valueSafe: number;
   withdrawDate?: Date;

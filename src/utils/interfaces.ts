@@ -1,9 +1,4 @@
-import {
-  WalletPixKeyType,
-  TransactionType,
-  VaultStatus,
-  WithdrawalAction,
-} from "./enums";
+import { WalletPixKeyType, TransactionType, WithdrawalAction } from "./enums";
 
 export interface IUserRegistration {
   username: string;
@@ -65,7 +60,6 @@ export interface IGetVaults {
 }
 export interface IWithdrawVault {
   vaultId: number;
-  depositAmmount: number;
 }
 
 export interface IModelUser {
@@ -102,7 +96,7 @@ export interface IModelVault {
   walletId: number;
   depositAmount: number;
   withdrawDate: Date;
-  status: VaultStatus;
+  status: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -135,6 +129,5 @@ export interface IUserDepositProps {
 
 export interface IUserWithdrawProps {
   title: string;
-  valueSafe: number;
-  withdrawDate: Date;
+  vault: IModelVault;
 }
