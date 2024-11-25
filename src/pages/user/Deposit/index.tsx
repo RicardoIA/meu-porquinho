@@ -14,7 +14,8 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { Button, Dialog, Portal } from "react-native-paper";
+import { Button } from "react-native-paper";
+import DialogConfirm from "../../../components/DialogConfirm";
 import Vault from "../../../components/Vault";
 import { useFetch } from "../../../hooks/useFetch";
 import { RootStackParamList, StackNavigation } from "../../../routes";
@@ -23,7 +24,6 @@ import { log } from "../../../utils/log";
 import * as theme from "./../../../themes";
 import { IModelWallet } from "./../../../utils/interfaces";
 import style from "./style";
-import DialogConfirm from "../../../components/DialogConfirm";
 
 const image = require("./../../../assets/mobile-phone-payment.png");
 

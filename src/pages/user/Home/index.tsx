@@ -23,11 +23,12 @@ import Utils from "../../../utils";
 import {
   IModelVault,
   IModelWallet,
+  IUserEditPix,
   IUserWithdrawProps,
 } from "../../../utils/interfaces";
+import { log } from "../../../utils/log";
 import * as theme from "./../../../themes";
 import style from "./style";
-import { log } from "../../../utils/log";
 
 const iconArrowDown = Image.resolveAssetSource(
   require("./../../../assets/arrow-down.svg")
@@ -102,7 +103,12 @@ export default function Home() {
   }
 
   function onPressEditPix() {
-    console.log("Pix:", wallet?.pixKey);
+    const data: IUserEditPix = {
+      pixKey: wallet?.pixKey,
+      pixType: wallet?.pixKeyType,
+    };
+
+    navigation.navigate("EditPixKey", data);
   }
 
   const calcWithdrawalAvailable = (listVault: IModelVault[]) => {

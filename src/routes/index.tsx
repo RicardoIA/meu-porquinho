@@ -3,9 +3,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ComponentsTest from "../pages/main/ComponentsTest";
 
-import EditField from "../pages/main/EditNewValut";
+import EditNewValut from "../pages/main/EditNewValut";
 import Welcome from "../pages/main/Welcome";
-import { IUserDepositProps, IUserWithdrawProps } from "../utils/interfaces";
+import {
+  IUserDepositProps,
+  IUserEditPix as IEditPixKey,
+  IUserWithdrawProps,
+} from "../utils/interfaces";
 import AdminHome from "./../pages/admin/Home";
 import AdminWithdraw from "./../pages/admin/Withdraw";
 import Tip from "./../pages/main/Tip";
@@ -16,6 +20,7 @@ import Register from "./../pages/settings/Register";
 import UserDeposit from "./../pages/user/Deposit";
 import UserHome from "./../pages/user/Home";
 import UserWithdraw from "./../pages/user/Withdraw";
+import EditPixKey from "../pages/main/EditPixkey";
 
 const Stack = createNativeStackNavigator();
 
@@ -38,7 +43,7 @@ export default function Routes() {
         options={{ gestureEnabled: false }}
       />
 
-      <Stack.Screen name="EditField" component={EditField} />
+      <Stack.Screen name="EditNewValut" component={EditNewValut} />
       <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
       <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="Tip" component={Tip} />
@@ -47,6 +52,7 @@ export default function Routes() {
       <Stack.Screen name="UserHome" component={UserHome} />
       <Stack.Screen name="UserDeposit" component={UserDeposit} />
       <Stack.Screen name="UserWithdraw" component={UserWithdraw} />
+      <Stack.Screen name="EditPixKey" component={EditPixKey} />
 
       <Stack.Screen name="Components Test" component={ComponentsTest} />
     </Stack.Navigator>
@@ -66,7 +72,8 @@ export type ScreenNames = [
   | "RecoverPassword"
   | "Register"
   | "Components"
-  | "EditField"
+  | "EditNewValut"
+  | "EditPixKey"
 ]; // type these manually
 
 export type RootStackParamList = {
@@ -82,6 +89,7 @@ export type RootStackParamList = {
   RecoverPassword: undefined;
   Register: undefined;
   Components: undefined;
-  EditField: undefined;
+  EditNewValut: undefined;
+  EditPixKey: IEditPixKey;
 };
 export type StackNavigation = NavigationProp<RootStackParamList>;

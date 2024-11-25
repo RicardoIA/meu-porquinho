@@ -1,4 +1,4 @@
-import { WalletPixKeyType, TransactionType, WithdrawalAction } from "./enums";
+import { TransactionType, WithdrawalAction } from "./enums";
 
 export interface IUserRegistration {
   username: string;
@@ -31,7 +31,7 @@ export interface IAddBalanceWallet {
 }
 export interface ISetPixKey {
   pixKey: string;
-  pixKeyType: WalletPixKeyType;
+  // pixKeyType: WalletPixKeyType;
 }
 
 // Transaction
@@ -107,7 +107,7 @@ export interface IModelWallet {
   bonusBalance: number;
   transactionToken: string;
   pixKey: string;
-  pixKeyType: WalletPixKeyType;
+  pixKeyType: string;
 }
 
 /** Auth User */
@@ -130,4 +130,9 @@ export interface IUserDepositProps {
 export interface IUserWithdrawProps {
   title: string;
   vault: IModelVault;
+}
+
+export interface IUserEditPix {
+  pixKey: string | undefined;
+  pixType: string | undefined;
 }

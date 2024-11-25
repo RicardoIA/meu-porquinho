@@ -5,6 +5,7 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import * as React from "react";
+import { useEffect } from "react";
 import {
   Image,
   Keyboard,
@@ -14,16 +15,15 @@ import {
   View,
 } from "react-native";
 import { Button } from "react-native-paper";
+import DialogConfirm from "../../../components/DialogConfirm";
 import Vault from "../../../components/Vault";
-import { RootStackParamList, StackNavigation } from "../../../routes";
-import * as theme from "./../../../themes";
-import style from "./style";
 import { useFetch } from "../../../hooks/useFetch";
-import { useEffect } from "react";
+import { RootStackParamList, StackNavigation } from "../../../routes";
 import { vaultService } from "../../../services/api";
 import { IWithdrawVault } from "../../../utils/interfaces";
 import { log } from "../../../utils/log";
-import DialogConfirm from "../../../components/DialogConfirm";
+import * as theme from "./../../../themes";
+import style from "./style";
 
 const image = require("./../../../assets/mobile-phone-payment.png");
 
@@ -76,6 +76,7 @@ export default function UserWithdraw() {
       })
     );
   };
+
   return (
     <TouchableWithoutFeedback
       touchSoundDisabled
