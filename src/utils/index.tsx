@@ -1,4 +1,9 @@
 export default class Utils {
+  static isPositiveNumber(str: string): boolean {
+    const regex = /^-?\d+(.\d+)?$/;
+    return regex.test(str);
+  }
+
   static formatMonetaryNumber(value: number | null | undefined): string {
     if (!value) {
       return "0.00";

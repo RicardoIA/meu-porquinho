@@ -12,6 +12,7 @@ export interface InputFieldProps {
   labelField: string;
   value: Date | undefined;
   valid?: boolean | string;
+  invalidMessage?: string;
   autoFocus?: boolean | undefined;
   onChange: (date: Date | undefined) => void;
 }
@@ -24,27 +25,6 @@ export default function InputDate(props: InputFieldProps) {
   return (
     <View style={style.container}>
       {props.labelField && <Text style={style.label}>{props.labelField}</Text>}
-
-      {/* <TextInput
-        autoFocus={props.autoFocus}
-        mode="outlined"
-        autoCapitalize="none"
-        style={[
-          style.textInput,
-          isInvalid() ? style.errorStyle : style.defaultStyle,
-        ]}
-        outlineStyle={[
-          style.outlineStyle,
-          isInvalid() ? style.outlineErrorStyle : null,
-        ]}
-        placeholderTextColor={colors.gray}
-        placeholder={props.placeholder}
-        focusable={true}
-        outlineColor={colors.lightGreen}
-        // value={props.value}
-        // onChangeText={props.onChangeText}
-      /> */}
-
       <DatePickerInput
         style={[
           style.textInput,
@@ -65,7 +45,9 @@ export default function InputDate(props: InputFieldProps) {
       />
       {isInvalid() && (
         <Text style={style.alert}>
-          {props.valid === false ? "Campo inválido" : props.valid}
+          {props.valid === false
+            ? props.invalidMessage ?? "Campo inválido"
+            : props.valid}
         </Text>
       )}
     </View>

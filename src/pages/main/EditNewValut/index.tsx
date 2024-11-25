@@ -24,16 +24,26 @@ const EditNewValut: React.FC = () => {
     validateDate();
   }, [dateValue]);
 
+  useEffect(() => {
+    if (Utils.isPositiveNumber(withdrawalAmount)) {
+      setWithdrawalAmountValid(true);
+    } else {
+      setWithdrawalAmountValid(false);
+    }
+  }, [dateValue]);
+
   const validateDate = () => {
     var valid =
       dateValue &&
-      dateValue.getUTCDate() >= Utils.DateValidToWithdrawNewVault().getUTCDate()
+      dateValue.toLocaleDateString() >=
+        Utils.DateValidToWithdrawNewVault().toLocaleDateString()
         ? true
         : false;
 
     setDateValid(valid);
     return valid;
   };
+
   const validaWithdrawalAmount = () => {
     var value = parseFloat(withdrawalAmount);
     var valid = !isNaN(value) && value > 0;
@@ -66,6 +76,11 @@ const EditNewValut: React.FC = () => {
               labelField="Data para saque"
               value={dateValue}
               valid={dateValid}
+              invalidMessage={
+                "A data deve ser superior a " +
+                Utils.DateTomorrow().toLocaleDateString() +
+                "."
+              }
               onChange={(d: Date | undefined) => setDateValue(d)}
             />
             <InputField
