@@ -82,6 +82,7 @@ export default function Home() {
   const goToRecoverPassword = () => {
     navigation.navigate("RecoverPassword");
   };
+
   return (
     <TouchableWithoutFeedback
       touchSoundDisabled

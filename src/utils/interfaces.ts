@@ -24,6 +24,9 @@ export interface IEditUser {
 export interface IDeleteUser {
   userId: string;
 }
+export interface IUserResetPassword {
+  email: string;
+}
 
 /// Wallet
 export interface IAddBalanceWallet {
@@ -115,9 +118,11 @@ export interface IAuthContextType {
   login: (userLogin: IUserLogin) => Promise<boolean>;
   logout: () => Promise<void>;
   register: (data: IUserRegistration) => Promise<boolean>;
+  resetPassword: (data: IUserResetPassword) => Promise<boolean>;
   isLoading: boolean;
   isLoggedIn: boolean;
   isAdmin: boolean;
+  error: string | any;
   user: IModelUser | null;
   token: string | null;
 }

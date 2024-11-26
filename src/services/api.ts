@@ -11,6 +11,7 @@ import {
   ISetPixKey,
   IUserLogin,
   IUserRegistration,
+  IUserResetPassword,
   IWithdrawVault,
 } from "../utils/interfaces";
 import { AsyncStorageManager } from "../storage/AsyncStorageManager";
@@ -86,6 +87,21 @@ class AuthService {
       data.updateData,
       await configAuth()
     );
+  }
+
+  async resetPassword(data: IUserResetPassword): Promise<AxiosResponse<any>> {
+    let response: AxiosResponse<any> = {} as AxiosResponse<any>;
+
+    await service
+      .post("/api/auth/password-reset", data)
+      .then((resp) => {
+        response = resp;
+      })
+      .catch(function (error) {
+        response = error.response;
+      });
+
+    return response;
   }
 
   async deleteUser(data: IDeleteUser) {

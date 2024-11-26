@@ -10,23 +10,67 @@ import InputField from "../../../components/InputField";
 import * as theme from "./../../../themes";
 import style from "./style";
 import { Button } from "react-native-paper";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions, useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
 import Utils from "../../../utils";
+import { useAuth } from "../../../hooks/useAuth";
+import { useEffect } from "react";
+import DialogConfirm from "../../../components/DialogConfirm";
 
 export default function RecoverPassword() {
-  const { navigate } = useNavigation<StackNavigation>();
+  const navigation = useNavigation<StackNavigation>();
+  const { resetPassword, error, isLoading } = useAuth();
 
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState<string>("");
   const [emailInvalid, setEmailInvalid] = React.useState(false);
+  const [sendSuccess, setSendSuccess] = React.useState<boolean>(false);
 
-  function goToHome() {
-    navigate("UserHome");
-  }
-  function goToRegister() {
-    navigate("Register");
-  }
-  function checkEmail() {
+  useEffect(() => {
+    if (!emailInvalid && !isLoading && sendSuccess) {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{ name: "NewPassword" }],
+        })
+      );
+
+      setEmailInvalid(false);
+    }
+  }, [sendSuccess]);
+
+  useEffect(() => {
+    checkEmail();
+  }, [email]);
+
+  const handelResetPasword = async () => {
+    try {
+      if (emailInvalid) {
+        return;
+      }
+
+      resetPassword({ email })
+        .then((success) => {
+          if (success) {
+            setEmailInvalid(false);
+          } else {
+            throw new Error("failed Login");
+          }
+
+          setSendSuccess(true);
+        })
+        .catch((e) => {
+          showDialogFailed();
+          setEmailInvalid(true);
+          setSendSuccess(false);
+        });
+    } catch (error) {
+      showDialogFailed();
+      setEmailInvalid(true);
+      setSendSuccess(false);
+    }
+  };
+
+  const checkEmail = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!email || email.length < 4) {
@@ -35,9 +79,14 @@ export default function RecoverPassword() {
     }
 
     setEmailInvalid(!emailRegex.test(email));
-    if (!emailInvalid) {
-      navigate("NewPassword");
-    }
+  };
+
+  const [visibleDialogFailed, setVisibleDialogFailed] = React.useState(false);
+  const showDialogFailed = () => setVisibleDialogFailed(true);
+  const hideDialogFailed = () => setVisibleDialogFailed(false);
+
+  function goToRegister() {
+    navigation.navigate("Register");
   }
 
   return (
@@ -46,6 +95,15 @@ export default function RecoverPassword() {
       onPress={() => Keyboard.dismiss()}
     >
       <ScrollView contentContainerStyle={[style.bodyViewContainer]}>
+        <DialogConfirm
+          title="Falha ao tentar recuperar senha"
+          content="Pressione ok para fechar"
+          error={typeof error === "string" ? error : error?.message}
+          visible={visibleDialogFailed}
+          onPressOk={hideDialogFailed}
+          onPressCancel={hideDialogFailed}
+        />
+
         <View style={theme.style.header}>
           <Text style={theme.style.headerTitle}>Recuperar Senha</Text>
         </View>
@@ -64,7 +122,9 @@ export default function RecoverPassword() {
                 labelField="E-mail de cadastro:"
                 placeholder="example@example.com"
                 value={email}
-                onChangeText={(value: string) => setEmail(value)}
+                onChangeText={(value: string) => {
+                  setEmail(value);
+                }}
               />
             </View>
             {emailInvalid && (
@@ -78,7 +138,9 @@ export default function RecoverPassword() {
               textColor={theme.colors.letterDarkGreen}
               labelStyle={theme.style.firstButtonLabel}
               contentStyle={theme.style.firstButtonContainer}
-              onPress={checkEmail}
+              loading={isLoading}
+              disabled={isLoading || emailInvalid}
+              onPress={handelResetPasword}
             >
               Enviar
             </Button>

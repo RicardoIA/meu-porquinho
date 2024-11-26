@@ -8,6 +8,7 @@ import {
   IModelUser,
   IUserLogin,
   IUserRegistration,
+  IUserResetPassword,
 } from "../utils/interfaces";
 import { log } from "../utils/log";
 
@@ -32,7 +33,7 @@ const useProvideAuth = () => {
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<string | any>(null);
 
   useEffect(() => {
     const checkUserLoggedIn = async () => {
@@ -89,6 +90,41 @@ const useProvideAuth = () => {
     } catch (error) {
       log.write("Login (failed)", error);
       setError(error);
+      setIsLoggedIn(false);
+
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const resetPassword = async (data: IUserResetPassword) => {
+    try {
+      setToken(null);
+      setIsLoggedIn(false);
+      setIsLoading(true);
+      setError(null);
+
+      const resp = await authService.resetPassword(data);
+
+      const success = resp.status >= 200 && resp.status <= 299;
+      if (!success) {
+        setError(resp.data.error);
+        throw new Error(
+          JSON.stringify({
+            data: resp.data,
+            status: resp.status,
+          })
+        );
+      }
+      log.write("Reset Password (success)", error);
+
+      return true;
+    } catch (err) {
+      if (!error) {
+        setError(err);
+      }
+      log.write("Reset Password (failed)", err);
       setIsLoggedIn(false);
 
       return false;
@@ -204,9 +240,11 @@ const useProvideAuth = () => {
     login,
     logout,
     register,
+    resetPassword,
     isLoading,
     isLoggedIn,
     isAdmin,
+    error,
     user,
     token,
   };
