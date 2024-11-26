@@ -32,7 +32,7 @@ type UserWithdrawRouteProp = RouteProp<RootStackParamList, "UserWithdraw">;
 export default function UserWithdraw() {
   const navigation = useNavigation<StackNavigation>();
   const route = useRoute<UserWithdrawRouteProp>();
-  const { title, vault } = route.params;
+  const { title, vault, pixKey } = route.params;
 
   const vaultWithdraw = useFetch();
 
@@ -109,7 +109,8 @@ export default function UserWithdraw() {
             id={vault.vaultId}
             title={title}
             valueSafe={vault.depositAmount}
-            withdrawDate={new Date(vault.withdrawDate)}
+            pixKey={pixKey}
+            withdrawDate={pixKey ? undefined : new Date(vault.withdrawDate)}
           />
 
           <View style={style.actionContainer}>

@@ -39,6 +39,7 @@ export default function AdminWithdraw() {
           <Image style={theme.style.image} source={image} />
 
           <Vault
+            id={1}
             title="Caixa"
             valueSafe={data.valueSafe}
             pixKey={data.pixKey}

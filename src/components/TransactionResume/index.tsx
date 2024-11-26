@@ -1,9 +1,9 @@
 import * as React from "react";
 import { GestureResponderEvent, Image, Text, View } from "react-native";
 import { SvgUri } from "react-native-svg";
-import * as theme from "./../../themes";
+import * as theme from "../../themes";
 import style from "./style";
-import Utils from "./../../utils";
+import Utils from "../../utils";
 
 const iconMoney = Image.resolveAssetSource(
   require("./../../assets/money-white.svg")
@@ -12,12 +12,12 @@ const iconDollarSign = Image.resolveAssetSource(
   require("./../../assets/dollar-sign-white.svg")
 );
 
-export interface ResumeAccountProps {
+export interface TransactionResumeProps {
   valueSafe: number;
   valueProfit: number;
 }
 
-export default function ResumeAccount(props: ResumeAccountProps) {
+export default function TransactionResume(props: TransactionResumeProps) {
   return (
     <View style={[style.container]}>
       <View style={style.containerBody}>

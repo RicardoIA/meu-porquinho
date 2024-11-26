@@ -10,10 +10,12 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { IconButton } from "react-native-paper";
+import { Button, IconButton } from "react-native-paper";
 import { SvgUri } from "react-native-svg";
 import NewVault from "../../../components/NewVault";
 import PixContainer from "../../../components/PixContainer";
+import ResumeAccountAdmin from "../../../components/ResumeAccountAdmin";
+import TransactionResume from "../../../components/TransactionResume";
 import Vault from "../../../components/Vault";
 import { useAuth } from "../../../hooks/useAuth";
 import { useFetch } from "../../../hooks/useFetch";
@@ -42,7 +44,7 @@ const iconGetOut = Image.resolveAssetSource(
 
 export default function Home() {
   const navigation = useNavigation<StackNavigation>();
-  const { logout, user } = useAuth();
+  const { logout, user, isAdmin } = useAuth();
 
   const getWallet = useFetch(walletService.get, null, true);
   const getVaults = useFetch(vaultService.getAll, null, true);
@@ -127,6 +129,95 @@ export default function Home() {
     setTotalSaved(value);
   };
 
+  const renderResumeAccount = () => {
+    if (isAdmin) {
+      return (
+        <ResumeAccountAdmin
+          totalTips={totalSaved ?? 0}
+          valueSafe={withdrawalAvailable ?? 0}
+        />
+      );
+    }
+
+    return (
+      <View style={style.resumeAccount}>
+        <View style={style.resumeAccountGroup}>
+          <View style={style.resumeAccountHeader}>
+            <SvgUri
+              uri={iconArrowUp.uri}
+              width={20}
+              color={theme.colors.letterDarkGreen}
+            />
+            <Text style={style.resumeAccountTitle}>Total Guardado</Text>
+          </View>
+          <Text style={style.resumeAccountValueWhite}>
+            {Utils.formatMonetaryNumber(totalSaved)}
+          </Text>
+        </View>
+        <View style={style.verticalLine} />
+        <View style={style.resumeAccountGroup}>
+          <View style={style.resumeAccountHeader}>
+            <SvgUri
+              uri={iconArrowDown.uri}
+              width={20}
+              color={theme.colors.letterDarkGreen}
+            />
+            <Text style={style.resumeAccountTitle}>Saque Disponível</Text>
+          </View>
+          <Text style={style.resumeAccountValueBlue}>
+            {Utils.formatMonetaryNumber(withdrawalAvailable)}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
+  const renderBodyContent = () => {
+    if (isAdmin) {
+      return (
+        <>
+          <View
+            style={{
+              backgroundColor: theme.colors.lightGreen,
+              borderRadius: 30,
+              height: 180,
+              justifyContent: "space-around",
+              alignItems: "center",
+              padding: 40,
+            }}
+          >
+            <Text>Gorjetas / Depositos</Text>
+            <Text>Graph</Text>
+          </View>
+          <TransactionResume valueProfit={100} valueSafe={4000} />
+        </>
+      );
+    }
+
+    return (
+      <>
+        <FlatList
+          contentContainerStyle={style.bodyVaults}
+          scrollEnabled={false}
+          data={vaults}
+          renderItem={({ item }) => (
+            <Vault
+              id={item.vaultId}
+              title={`Cofre ${item.vaultId}`}
+              valueSafe={item.depositAmount}
+              withdrawDate={new Date(item.withdrawDate)}
+              btnWithout={true}
+              btnWithoutOnPress={() => onPressWithdraw(item)}
+            />
+          )}
+          keyExtractor={(item) => item?.vaultId.toString()}
+        />
+
+        <NewVault value={100} />
+      </>
+    );
+  };
+
   return (
     <TouchableWithoutFeedback
       touchSoundDisabled
@@ -156,63 +247,36 @@ export default function Home() {
               onPress={onPressLogout}
             />
           </View>
-          <View style={style.resumeAccount}>
-            <View style={style.resumeAccountGroup}>
-              <View style={style.resumeAccountHeader}>
-                <SvgUri
-                  uri={iconArrowUp.uri}
-                  width={20}
-                  color={theme.colors.letterDarkGreen}
-                />
-                <Text style={style.resumeAccountTitle}>Total Guardado</Text>
-              </View>
-              <Text style={style.resumeAccountValueWhite}>
-                {Utils.formatMonetaryNumber(totalSaved)}
-              </Text>
-            </View>
-            <View style={style.verticalLine} />
-            <View style={style.resumeAccountGroup}>
-              <View style={style.resumeAccountHeader}>
-                <SvgUri
-                  uri={iconArrowDown.uri}
-                  width={20}
-                  color={theme.colors.letterDarkGreen}
-                />
-                <Text style={style.resumeAccountTitle}>Saque Disponível</Text>
-              </View>
-              <Text style={style.resumeAccountValueBlue}>
-                {Utils.formatMonetaryNumber(withdrawalAvailable)}
-              </Text>
-            </View>
-          </View>
+          {renderResumeAccount()}
         </View>
 
         <View style={theme.style.bodyContainer}>
           <View style={style.bodyContainer}>
-            {vaults && (
-              <FlatList
-                contentContainerStyle={style.bodyVaults}
-                scrollEnabled={false}
-                data={vaults}
-                renderItem={({ item }) => (
-                  <Vault
-                    id={item.vaultId}
-                    title={`Cofre ${item.vaultId}`}
-                    valueSafe={item.depositAmount}
-                    withdrawDate={new Date(item.withdrawDate)}
-                    btnWithout={true}
-                    btnWithoutOnPress={() => onPressWithdraw(item)}
-                  />
-                )}
-                keyExtractor={(item) => item?.vaultId.toString()}
-              />
-            )}
-
-            <NewVault value={100} />
+            {renderBodyContent()}
             <PixContainer
               pixKey={wallet?.pixKey}
               btnEditOnPress={onPressEditPix}
             />
+
+            {isAdmin && (
+              <Button
+                mode="contained"
+                onPress={() =>
+                  navigation.navigate("UserWithdraw", {
+                    title: "Admin",
+                    pixKey: wallet?.pixKey,
+                    vault: vaults[0],
+                  })
+                }
+                textColor={theme.colors.ultraLightGreen}
+                buttonColor={theme.colors.blue}
+                style={theme.style.secondButton}
+                labelStyle={theme.style.secondButtonLabel}
+                contentStyle={theme.style.secondButtonContainer}
+              >
+                SACAR
+              </Button>
+            )}
           </View>
         </View>
       </ScrollView>

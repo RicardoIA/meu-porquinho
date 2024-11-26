@@ -21,7 +21,7 @@ export default function Home() {
   const navigation = useNavigation<StackNavigation>();
   const { login, user, isAdmin } = useAuth();
 
-  const [username, setUsername] = React.useState("ricardo");
+  const [username, setUsername] = React.useState("admin");
   const [password, setPassword] = React.useState("admin");
   const [loginInvalid, setLoginInvalid] = React.useState<boolean | null>(null);
   const [loginLoading, setLoginLoading] = React.useState<boolean>(false);
@@ -32,7 +32,8 @@ export default function Home() {
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
-            routes: [{ name: "AdminHome" }],
+            //routes: [{ name: "AdminHome" }],
+            routes: [{ name: "UserHome" }],
           })
         );
       } else {

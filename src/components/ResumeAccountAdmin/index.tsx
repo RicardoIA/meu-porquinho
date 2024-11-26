@@ -1,8 +1,8 @@
 import * as React from "react";
 import { GestureResponderEvent, Image, Text, View } from "react-native";
 import { SvgUri } from "react-native-svg";
-import * as theme from "./../../themes";
-import Utils from "./../../utils";
+import * as theme from "../../themes";
+import Utils from "../../utils";
 
 import style from "./style";
 
@@ -16,14 +16,14 @@ const iconDollarSign = Image.resolveAssetSource(
   require("./../../assets/dollar-sign.svg")
 );
 
-export interface VaultAdminProps {
+export interface ResumeAccountAdminProps {
   valueSafe: number;
   totalTips: number;
   styleContainer?: any;
   btnWithoutOnPress?: (e: GestureResponderEvent) => void;
 }
 
-export default function VaultAdmin(props: VaultAdminProps) {
+export default function ResumeAccountAdmin(props: ResumeAccountAdminProps) {
   return (
     <View style={[style.container, props.styleContainer]}>
       <View style={style.containerBody}>

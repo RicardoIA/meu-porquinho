@@ -11,10 +11,10 @@ import { Button, IconButton } from "react-native-paper";
 
 import { SvgUri } from "react-native-svg";
 import PixContainer from "../../../components/PixContainer";
-import VaultAdmin from "../../../components/VaultAdmin";
+import ResumeAccountAdmin from "../../../components/ResumeAccountAdmin";
 import * as theme from "./../../../themes";
 import style from "./style";
-import ResumeAccount from "../../../components/ResumeAccount";
+import TransactionResume from "../../../components/TransactionResume";
 import colors from "../../../themes/colors";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { StackNavigation } from "../../../routes";
@@ -91,7 +91,10 @@ export default function AdminHome() {
             />
           </View>
           <View style={style.resumeAccount}>
-            <VaultAdmin valueSafe={data.valueSafe} totalTips={data.totalTips} />
+            <ResumeAccountAdmin
+              valueSafe={data.valueSafe}
+              totalTips={data.totalTips}
+            />
           </View>
         </View>
 
@@ -111,7 +114,7 @@ export default function AdminHome() {
               <Text>Graph</Text>
             </View>
 
-            <ResumeAccount valueProfit={100} valueSafe={4000} />
+            <TransactionResume valueProfit={100} valueSafe={4000} />
 
             <PixContainer
               pixKey={data.pixKey}

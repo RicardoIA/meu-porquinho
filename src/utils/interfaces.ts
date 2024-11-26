@@ -135,6 +135,7 @@ export interface IUserDepositProps {
 export interface IUserWithdrawProps {
   title: string;
   vault: IModelVault;
+  pixKey?: string;
 }
 
 export interface IUserEditPix {
